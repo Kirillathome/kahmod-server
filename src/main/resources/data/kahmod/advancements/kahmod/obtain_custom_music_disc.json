@@ -1,0 +1,35 @@
+{
+  "parent": "kahmod:kahmod/obtain_painting",
+  "criteria": {
+    "disc": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "kahmod:custom_discs"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.kahmod.obtain_custom_music_disc.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:music_disc_13"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.kahmod.obtain_custom_music_disc.title"
+    }
+  },
+  "requirements": [
+    [
+      "disc"
+    ]
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "parent": "kahmod:kahmod/root",
+  "criteria": {
+    "backrooms": {
+      "conditions": {
+        "block": "minecraft:powder_snow"
+      },
+      "trigger": "minecraft:enter_block"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.kahmod.noclip.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:yellow_concrete"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.kahmod.noclip.title"
+    }
+  },
+  "requirements": [
+    [
+      "backrooms"
+    ]
+  ]
+}
