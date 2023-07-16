@@ -19,6 +19,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
+import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
 import org.quiltmc.qsl.entity.api.QuiltEntityTypeBuilder;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 import org.slf4j.Logger;
@@ -29,6 +30,7 @@ public class KahMod implements ModInitializer {
 	public void onInitialize(ModContainer mod) {
 		LOGGER.info("Hello Quilt world from {}!", mod.metadata().name());
 		PolymerResourcePackUtils.addModAssets("kahmod");
+		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> AfkCommand.register(dispatcher));
 	}
 	public static final Logger LOGGER = LoggerFactory.getLogger("Kahmod");
 
@@ -49,6 +51,7 @@ public class KahMod implements ModInitializer {
 
 	public static SoundEvent MUSIC_DISC_AMOGUS = registerSoundEvent("music_disc.amogus");
 	//public static final Item AMOGUS_DISC = registerItem("music_disc_amogus", new PolymerMusicDiscItem(Items.MUSIC_DISC_CAT, 7, KahMod.MUSIC_DISC_AMOGUS, new Item.Settings().rarity(Rarity.RARE).maxCount(1), 72));
+
 
 	private static <T extends Entity> EntityType<T> registerEntity(Identifier provoker, EntityType<T> build) {
 		Registry.register(Registries.ENTITY_TYPE, provoker, build);
