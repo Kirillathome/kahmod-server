@@ -3,12 +3,11 @@ plugins {
 	alias libs.plugins.quilt.loom
 }
 
-archivesBaseName = project.archives_base_name
-version = "${project.version}+${libs.versions.minecraft.get()}"
+base.archivesName = project.archives_base_name
+version = "$project.version+${libs.versions.minecraft.get()}"
 group = project.maven_group
 
 repositories {
-	maven { url 'https://maven.nucleoid.xyz' }
 	// Add repositories to retrieve artifacts from in here.
 	// You should only use this when depending on other mods because
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
@@ -34,16 +33,13 @@ dependencies {
 	// Quilted Fabric API will automatically pull in the correct QSL version.
 	modImplementation libs.quilted.fabric.api
 	// modImplementation libs.bundles.quilted.fabric.api // If you wish to use Fabric API's deprecated modules, you can replace the above line with this one
-
-	modImplementation include("eu.pb4:polymer-core:0.3.8+1.19.3")
-	modImplementation include("eu.pb4:polymer-resource-pack:0.3.8+1.19.3")
 }
 
 processResources {
 	inputs.property 'version', version
 
 	filesMatching('quilt.mod.json') {
-		expand "version": version
+		expand 'version': version
 	}
 }
 
@@ -70,7 +66,7 @@ java {
 // If you plan to use a different file for the license, don't forget to change the file name here!
 jar {
 	from('LICENSE') {
-		rename { "${it}_${archivesBaseName}" }
+		rename { "${it}_${base.archivesName.get()}" }
 	}
 }
 
