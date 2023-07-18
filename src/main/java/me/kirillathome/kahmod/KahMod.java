@@ -1,5 +1,6 @@
 package me.kirillathome.kahmod;
 
+import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.loader.api.Version;
@@ -12,10 +13,12 @@ public class KahMod implements ModInitializer {
 
 	public void onInitialize(ModContainer mod) {
 		LOGGER.info("Hello Quilt world from {}!", mod.metadata().name());
+		boolean assets = PolymerResourcePackUtils.addModAssets("kahmod");
+		if (assets) LOGGER.info("Successfully registered mod assets!");
+		CustomItems.registerClass();
 		CommandRegistrationCallback.EVENT.register((dispatcher, buildContext, environment) -> CustomCommands.registerRSMPCommand(dispatcher));
 		CommandRegistrationCallback.EVENT.register((dispatcher, buildContext, environment) -> CustomCommands.registerStatusCommand(dispatcher));
 		CommandRegistrationCallback.EVENT.register((dispatcher, buildContext, environment) -> CustomCommands.registerMaulCommand(dispatcher));
-
 	}
 	public static final Logger LOGGER = LoggerFactory.getLogger("Kahmod");
 

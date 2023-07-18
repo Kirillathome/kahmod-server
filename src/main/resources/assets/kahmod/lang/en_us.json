@@ -1,28 +1,7 @@
 {
-  "item.kahmod.invisible_item_frame": "Invisible Item Frame",
-  "item.kahmod.invisible_glow_item_frame": "Invisible Glow Frame",
-  "item.kahmod.blue_crystal": "Walter's Blue Crystals",
-
-  "advancements.kahmod.root.title": "RentnerSMP",
-  "advancements.kahmod.root.description": "Worst Minecraft Server in Ohio",
-  "advancements.kahmod.noclip.title": "Uh Oh",
-  "advancements.kahmod.noclip.description": "Noclip into the Backrooms (have fun getting out of there!)",
-  "advancements.kahmod.obtain_yellow_concrete.title": "In its walls",
-  "advancements.kahmod.obtain_yellow_concrete.description": "Get some wall blocks from the backrooms",
-  "advancements.kahmod.obtain_powder_snow.title": "What is this stuff?",
-  "advancements.kahmod.obtain_powder_snow.description": "Obtain ... something very weird",
-  "advancements.kahmod.obtain_invisible_item_frame.title": "I can't see that",
-  "advancements.kahmod.obtain_invisible_item_frame.description": "Combine an item frame with glass panes to make it invisible",
-  "advancements.kahmod.obtain_invisible_glow_item_frame.title": "It's a scam!",
-  "advancements.kahmod.obtain_invisible_glow_item_frame.description": "You can also make it glow! ... kinda",
-  "advancements.kahmod.obtain_blue_crystal.title": "Jesse, we need to cook!",
-  "advancements.kahmod.obtain_blue_crystal.description": "Cook up a suspicious looking crystal with Jesse",
-  "advancements.kahmod.eat_blue_crystal.title": "Superpowers",
-  "advancements.kahmod.eat_blue_crystal.description": "Eat that suspicious looking crystal you just made (this might have been a mistake)",
-  "advancements.kahmod.obtain_painting.title": "AART!",
-  "advancements.kahmod.obtain_painting.description": "You can get some very ... interesting decoration on your walls",
-  "advancements.kahmod.obtain_custom_music_disc.title": "Music to my ears",
-  "advancements.kahmod.obtain_custom_music_disc.description": "Get any custom music disc that definitely doesn't sound awful",
-  "advancements.kahmod.obtain_all_custom_music_discs.title": "Collector",
-  "advancements.kahmod.obtain_all_custom_music_discs.description": "Scavenger for all the custom music discs and question your life choices afterwards"
+  "item.kahmod.copper_horn": "Copper Horn",
+  "subtitles.item.copper_horn.play": "Copper Horn plays",
+  "tooltip.copper_horn.kahmod.vine_boom": "Vine Boom",
+  "tooltip.copper_horn.kahmod.yippie": "Yippie!",
+  "tooltip.copper_horn.kahmod.sus": "Sus"
 }

@@ -1,7 +1,20 @@
 {
-  "music_disc.amogus": {
+  "vine_boom": {
+    "subtitle": "subtitles.item.copper_horn.play",
     "sounds": [
-      "kahmod:records/amogus"
+        "kahmod:custom/vine_boom"
+    ]
+  },
+  "yippie": {
+    "subtitle": "subtitles.item.copper_horn.play",
+    "sounds": [
+      "kahmod:custom/yippie"
+    ]
+  },
+  "sus": {
+    "subtitle": "subtitles.item.copper_horn.play",
+    "sounds": [
+      "kahmod:custom/sus"
     ]
   }
 }
