@@ -26,10 +26,9 @@ public class CopperHornItem extends Item implements PolymerItem {
     public CopperHornItem(Settings settings) {
         super(settings);
     }
-    public ItemStack setSound(ItemStack stack, Identifier id){
+    public static void setSound(ItemStack stack, Identifier id){
         NbtCompound nbt = stack.getOrCreateNbt();
         nbt.putString("sound", id.toString());
-        return stack;
     }
 
     public SoundEvent getSound(ItemStack stack){
@@ -39,16 +38,12 @@ public class CopperHornItem extends Item implements PolymerItem {
         }
         return null;
     }
-    /*public ItemStack setSound(ItemStack stack, SoundEvent sound){
-        NbtCompound nbt = stack.getOrCreateNbt();
-        nbt.putString("sound", sound.getId().toString());
-        return stack;
-    }*/
     @Override
     public int getPolymerCustomModelData(ItemStack itemStack, @Nullable ServerPlayerEntity player) {
         return PolymerResourcePackUtils.requestModel(Items.IRON_NUGGET, new Identifier("kahmod:item/copper_horn")).value();
     }
     @Override
+
     public Item getPolymerItem(ItemStack itemStack, @Nullable ServerPlayerEntity player) {
         return Items.IRON_NUGGET;
     }

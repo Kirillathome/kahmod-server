@@ -16,6 +16,23 @@
     "sounds": [
       "kahmod:custom/sus"
     ]
+  },
+  "music_disc.amogus": {
+    "sounds": [
+      {
+        "name":"kahmod:records/amogus",
+        "stream": true
+      }
+    ]
+  },
+  "music_disc.mrbigshot": {
+    "sounds": [
+      {
+        "name":"kahmod:records/mrbigshot",
+        "stream": true,
+        "volume": 0.7
+      }
+    ]
   }
 }
 

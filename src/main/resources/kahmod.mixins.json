@@ -7,6 +7,10 @@
 	"client": [
 		"DebugHudMixin"
 	],
+	"server": [
+		"JukeboxEntityMixin",
+		"JukeboxMixin"
+	],
 	"injectors": {
 		"defaultRequire": 1
 	}

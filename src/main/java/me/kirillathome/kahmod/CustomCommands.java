@@ -5,6 +5,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import net.minecraft.command.CommandSource;
 import net.minecraft.command.EntitySelector;
 import net.minecraft.command.argument.ColorArgumentType;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -43,6 +44,7 @@ public final class CustomCommands {
                         .then(CommandManager.literal("get")
                             .then(CommandManager.argument("target", EntityArgumentType.player())
                                     .then(CommandManager.argument("command", StringArgumentType.string())
+                                            .suggests((context, builder) -> CommandSource.suggestMatching(new String[]{"cmd", "status", "maul"}, builder))
                                             .executes(context -> blacklist_get_response(
                                                     context.getSource(),
                                                     context.getArgument("target", EntitySelector.class).getPlayer(context.getSource()).getName().getString(),
@@ -55,6 +57,7 @@ public final class CustomCommands {
                         .then(CommandManager.literal("set")
                                 .then(CommandManager.argument("target", EntityArgumentType.player())
                                         .then(CommandManager.argument("command", StringArgumentType.string())
+                                                .suggests((context, builder) -> CommandSource.suggestMatching(new String[]{"cmd", "status", "maul"}, builder))
                                                 .then(CommandManager.argument("value", BoolArgumentType.bool())
                                                         .executes(context -> blacklist_set_response(
                                                                 context.getSource(),
@@ -80,11 +83,7 @@ public final class CustomCommands {
 
     public static int default_response(ServerCommandSource source){
         String version = KahMod.getVersion().raw();
-        if (!source.isPlayer()){
-            KahMod.LOGGER.info("Der RentnerSMP von Kirill.\nMod version: ".concat(version));
-            return 1;
-        }
-        Objects.requireNonNull(source.getPlayer()).sendMessage(Text.literal("Der RentnerSMP von Kirill.\nMod version: ".concat(version)), false);
+        source.sendFeedback(() -> Text.literal("Der RentnerSMP von Kirill.\nMod version: ".concat(version)), true);
         return Command.SINGLE_SUCCESS;
     }
 
@@ -100,23 +99,22 @@ public final class CustomCommands {
         }
         ItemStack playerItem = player.getMainHandStack();
         if (playerItem == ItemStack.EMPTY){
-            player.sendMessage(Text.literal("Can't add NBT to Air!"), false);
+            source.sendFeedback(() -> Text.literal("Can't add NBT to Air!"), true);
             return 2;
         }
         if (data == 0) {
             playerItem.removeSubNbt("CustomModelData");
-            player.sendMessage(Text.literal("Successfully reset the CustomModelData of your ".concat(playerItem.getName().getString().concat("!"))), false);
+            source.sendFeedback(() -> Text.literal("Successfully reset the CustomModelData of your ".concat(playerItem.getName().getString().concat("!"))), true);
         }
         else {
             playerItem.getOrCreateNbt().putInt("CustomModelData", data);
-            player.sendMessage(Text.literal("Successfully set the CustomModelData of your ".concat(playerItem.getName().getString().concat(" to ").concat(data.toString()).concat("!"))), false);
+            source.sendFeedback(() -> Text.literal("Successfully set the CustomModelData of your ".concat(playerItem.getName().getString().concat(" to ").concat(data.toString()).concat("!"))), true);
         }
         return Command.SINGLE_SUCCESS;
     }
 
     public static int blacklist_set_response(ServerCommandSource source, String target, String command, Boolean value){
         KahMod.LOGGER.info("Blacklisting ".concat(target).concat(" from ").concat(command));
-        ServerPlayerEntity player = source.getPlayer();
         String added_response = "Successfully blacklisted ".concat(target).concat(" from using ").concat(command).concat("!");
         String removed_response = "Successfully allowed ".concat(target).concat(" to use ").concat(command).concat("!");
         String already_blacklisted_response = target.concat(" is already blacklisted from using ").concat(command).concat("!");
@@ -126,52 +124,26 @@ public final class CustomCommands {
         }
         List<String> commands = new ArrayList<>(Arrays.asList(blacklist.get(target)));
         KahMod.LOGGER.info(commands.toString());
-        if (player != null){
-            if (value) {
-                if (commands.contains(command)){
-                    player.sendMessage(Text.literal(already_blacklisted_response), false);
-                }
-                else{
-                    commands.add(command);
-                    String[] new_commands = commands.toArray(new String[1]);
-                    blacklist.put(target, new_commands);
-                    player.sendMessage(Text.literal(added_response), false);
-                }
+        if (value) {
+            if (commands.contains(command)){
+                source.sendFeedback(() -> Text.literal(already_blacklisted_response), true);
             }
             else{
-                if (!commands.contains(command)){
-                    player.sendMessage(Text.literal(already_allowed_response), false);
-                }
-                else{
-                    commands.remove(command);
-                    String[] new_commands = commands.toArray(new String[0]);
-                    blacklist.put(target, new_commands);
-                    player.sendMessage(Text.literal(removed_response), false);
-                }
+                commands.add(command);
+                String[] new_commands = commands.toArray(new String[1]);
+                blacklist.put(target, new_commands);
+                source.sendFeedback(() -> Text.literal(added_response), true);
             }
         }
         else{
-            if (value) {
-                if (commands.contains(command)){
-                    KahMod.LOGGER.info(already_blacklisted_response);
-                }
-                else{
-                    commands.add(command);
-                    String[] new_commands = commands.toArray(new String[1]);
-                    blacklist.put(target, new_commands);
-                    KahMod.LOGGER.info(added_response);
-                }
+            if (!commands.contains(command)){
+                source.sendFeedback(() -> Text.literal(already_allowed_response), true);
             }
             else{
-                if (!commands.contains(command)){
-                    KahMod.LOGGER.info(already_allowed_response);
-                }
-                else{
-                    commands.remove(command);
-                    String[] new_commands = commands.toArray(new String[0]);
-                    blacklist.put(target, new_commands);
-                    KahMod.LOGGER.info(removed_response);
-                }
+                commands.remove(command);
+                String[] new_commands = commands.toArray(new String[0]);
+                blacklist.put(target, new_commands);
+                source.sendFeedback(() -> Text.literal(removed_response), true);
             }
         }
         return Command.SINGLE_SUCCESS;
@@ -180,21 +152,11 @@ public final class CustomCommands {
         boolean value = is_blacklisted_for(target, command);
         String is_blacklisted = target.concat(" is blacklisted for ").concat(command).concat("!");
         String is_not_blacklisted = target.concat(" is not blacklisted for ").concat(command).concat("!");
-        ServerPlayerEntity player = source.getPlayer();
-        if (!source.isPlayer() || player == null){
-            if (value){
-                KahMod.LOGGER.info(is_blacklisted);
-            }
-            else{
-                KahMod.LOGGER.info(is_not_blacklisted);
-            }
-            return 1;
-        }
         if (value){
-            player.sendMessage(Text.literal(is_blacklisted), false);
+            source.sendFeedback(() -> Text.literal(is_blacklisted), true);
         }
         else{
-            player.sendMessage(Text.literal(is_not_blacklisted), false);
+            source.sendFeedback(() -> Text.literal(is_not_blacklisted), true);
         }
         return Command.SINGLE_SUCCESS;
     }
@@ -229,7 +191,7 @@ public final class CustomCommands {
     public static int maul_response(ServerCommandSource source, String target, Formatting formatting){
         ServerPlayerEntity player = source.getPlayer();
         if (player != null && is_blacklisted_for(player.getName().getString(), "maul") || player != null && target.equals("Kirill_at_home")){
-           Text title = Text.literal(target.concat(" ist kein Gewinner")).formatted(formatting);
+           Text title = Text.literal(player.getName().getString().concat(" ist kein Gewinner")).formatted(formatting);
            TitleS2CPacket packet = new TitleS2CPacket(title);
            for (ServerPlayerEntity players : source.getServer().getPlayerManager().getPlayerList()){
                players.networkHandler.sendPacket(packet);
@@ -258,9 +220,19 @@ public final class CustomCommands {
         );
     }
     public static int setStatus(ServerCommandSource source, String status, Formatting formatting){
-        if (!source.isPlayer()){
+        ServerPlayerEntity player = source.getPlayer();
+        if (!source.isPlayer() || player == null){
             KahMod.LOGGER.info("Can't execute this command from the console!");
+            source.sendFeedback(() -> Text.literal("Can't execute this command from the console!"), true);
             return 1;
+        }
+        if (is_blacklisted_for(player.getName().getString(), "status")){
+            source.sendFeedback(() -> Text.literal("You are not allowed to use this command!"), true);
+            return 3;
+        }
+        if (status.length() > 12){
+            source.sendFeedback(() -> Text.literal("Status is too long!"), true);
+            return 3;
         }
         String player_name = Objects.requireNonNull(source.getPlayer()).getName().getString();
         if (source.getServer().getScoreboard().getTeam(player_name) == null){
@@ -276,9 +248,14 @@ public final class CustomCommands {
         return Command.SINGLE_SUCCESS;
     }
     public static int resetStatus(ServerCommandSource source){
-        if (!source.isPlayer()){
-            KahMod.LOGGER.info("Can't execute this command from the console!");
+        ServerPlayerEntity player = source.getPlayer();
+        if (!source.isPlayer() || player == null){
+            source.sendFeedback(() -> Text.literal("Can't execute this command from the console!"), true);
             return 1;
+        }
+        if (is_blacklisted_for(player.getName().getString(), "status")){
+            source.sendFeedback(() -> Text.literal("You are not allowed to use this command!"), true);
+            return 3;
         }
         String player_name = Objects.requireNonNull(source.getPlayer()).getName().getString();
         if (source.getServer().getScoreboard().getTeam(player_name) == null){
@@ -290,7 +267,7 @@ public final class CustomCommands {
             return 2;
         }
         player_team.setPrefix(Text.literal("").formatted(Formatting.RESET));
-        source.getPlayer().sendSystemMessage(Text.literal("Successfully reset your status."));
+        source.sendFeedback(() -> Text.literal("Successfully reset your status."), true);
         return Command.SINGLE_SUCCESS;
     }
 
