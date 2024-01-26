@@ -3,7 +3,7 @@
 	"quilt_loader": {
 		"group": "me.kirillathome",
 		"id": "kahmod",
-		"version": "1.2.0",
+		"version": "1.2.1",
 		"metadata": {
 			"name": "Kahmod",
 			"description": "Small Serverside Mod",
@@ -19,7 +19,8 @@
 		},
 		"intermediate_mappings": "net.fabricmc:intermediary",
 		"entrypoints": {
-			"init": "me.kirillathome.kahmod.KahMod"
+			"init": "me.kirillathome.kahmod.KahMod",
+			"server_init": "me.kirillathome.kahmod.ServerInit"
 		},
 		"depends": [
 			{

@@ -36,6 +36,7 @@ dependencies {
 	// modImplementation libs.bundles.quilted.fabric.api // If you wish to use Fabric API's deprecated modules, you can replace the above line with this one
 	modImplementation include("eu.pb4:polymer-core:0.5.5+1.20.1")
 	modImplementation include("eu.pb4:polymer-resource-pack:0.5.5+1.20.1")
+	modImplementation include("eu.pb4:polymer-virtual-entity:0.5.5+1.20.1")
 }
 
 processResources {

@@ -1,13 +1,11 @@
 package me.kirillathome.kahmod;
 
 import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
-import me.kirillathome.kahmod.listeners.BrandPacketListener;
-import me.kirillathome.kahmod.listeners.ItemCraftingListener;
+import me.kirillathome.kahmod.config.ConfigManager;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.loader.api.Version;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
-import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,12 +15,9 @@ public class KahMod implements ModInitializer {
 		LOGGER.info("Hello Quilt world from {}!", mod.metadata().name());
 		boolean assets = PolymerResourcePackUtils.addModAssets("kahmod");
 		if (assets) LOGGER.info("Successfully registered mod assets!");
+		ConfigManager.init();
 		CustomItems.registerClass();
-		CommandRegistrationCallback.EVENT.register((dispatcher, buildContext, environment) -> CustomCommands.registerRSMPCommand(dispatcher));
-		CommandRegistrationCallback.EVENT.register((dispatcher, buildContext, environment) -> CustomCommands.registerStatusCommand(dispatcher));
-		CommandRegistrationCallback.EVENT.register((dispatcher, buildContext, environment) -> CustomCommands.registerMaulCommand(dispatcher));
-		ItemCraftingListener.registerListener();
-		BrandPacketListener.registerListener();
+		CustomEntities.registerClass();
 	}
 	public static final Logger LOGGER = LoggerFactory.getLogger("Kahmod");
 

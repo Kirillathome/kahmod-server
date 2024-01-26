@@ -43,7 +43,6 @@ public class CopperHornItem extends Item implements PolymerItem {
         return PolymerResourcePackUtils.requestModel(Items.IRON_NUGGET, new Identifier("kahmod:item/copper_horn")).value();
     }
     @Override
-
     public Item getPolymerItem(ItemStack itemStack, @Nullable ServerPlayerEntity player) {
         return Items.IRON_NUGGET;
     }

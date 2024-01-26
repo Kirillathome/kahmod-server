@@ -1,0 +1,16 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecraft:item/paper"
+  },
+  "overrides": [
+    {
+      "model": "kahmod:item/painting/dumbcat",
+      "predicate": {"custom_model_data": 1}
+    },
+    {
+      "model": "kahmod:item/painting/backrooms",
+      "predicate": {"custom_model_data": 2}
+    }
+  ]
+}
