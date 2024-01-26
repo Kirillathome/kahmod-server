@@ -1,19 +1,19 @@
 package me.kirillathome.kahmod.entities;
 
 import eu.pb4.polymer.core.api.entity.PolymerEntity;
-import eu.pb4.polymer.virtualentity.api.ElementHolder;
-import eu.pb4.polymer.virtualentity.api.attachment.EntityAttachment;
-import eu.pb4.polymer.virtualentity.api.elements.InteractionElement;
+import eu.pb4.polymer.virtualentity.mixin.accessors.DisplayEntityAccessor;
+import eu.pb4.polymer.virtualentity.mixin.accessors.ItemDisplayEntityAccessor;
 import me.kirillathome.kahmod.CustomEntities;
 import me.kirillathome.kahmod.CustomItems;
 import me.kirillathome.kahmod.CustomPaintingVariants;
-import me.kirillathome.kahmod.mixin.DisplayEntityAccessor;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.InteractionEntity;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.decoration.AbstractDecorationEntity;
+import net.minecraft.entity.decoration.painting.PaintingEntity;
+import net.minecraft.entity.decoration.painting.PaintingVariants;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -21,6 +21,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Util;
@@ -32,12 +33,13 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class CustomPaintingEntity extends AbstractDecorationEntity implements PolymerEntity {
-
     private CustomPaintingVariants VARIANT = CustomPaintingVariants.DUMB_CAT;
+    private List<PaintingEntity> paintingEntities = new ArrayList<>();
 
     public CustomPaintingEntity(EntityType<? extends AbstractDecorationEntity> entityType, World world) {
         super(entityType, world);
@@ -55,18 +57,34 @@ public class CustomPaintingEntity extends AbstractDecorationEntity implements Po
     public Vec3d getClientSidePosition(Vec3d vec3d) {
         return vec3d.subtract(Vec3d.ZERO.relative(this.facing, 0.46875));
     }
-
-    private Vec3d getRealPosition(){
-        return getPos().subtract(Vec3d.ZERO.relative(this.facing, 0.46875));
+    @Override
+    protected void updateAttachmentPosition(){
+        if (this.facing != null) {
+            double d = (double)this.attachmentPos.getX() + 0.5;
+            double e = (double)this.attachmentPos.getY() + 0.5;
+            double f = (double)this.attachmentPos.getZ() + 0.5;
+            double h = this.offset(this.getWidthPixels());
+            double i = this.offset(this.getHeightPixels());
+            d -= (double)this.facing.getOffsetX() * 0.46875;
+            f -= (double)this.facing.getOffsetZ() * 0.46875;
+            e += i;
+            Direction direction = this.facing.rotateYCounterclockwise();
+            d += h * (double)direction.getOffsetX();
+            f += h * (double)direction.getOffsetZ();
+            this.setPos(d, e, f);
+        }
     }
-
+    private double offset(int offset) {
+        return offset % 32 == 0 ? 0.5 : 0.0;
+    }
     @Override
     public void modifyRawTrackedData(List<DataTracker.SerializedEntry<?>> data, ServerPlayerEntity player, boolean initial){
         ItemStack itemStack = new ItemStack(Items.PAPER);
         NbtCompound nbt = itemStack.getOrCreateNbt();
         nbt.putInt("CustomModelData", getVariant().model);
-        data.add(DataTracker.SerializedEntry.create(DisplayEntityAccessor.getStackData(), itemStack));
-        data.add(DataTracker.SerializedEntry.create(DisplayEntityAccessor.getTransformationData(), ModelTransformationMode.FIXED.getValue()));
+        data.add(DataTracker.SerializedEntry.create(ItemDisplayEntityAccessor.getITEM(), itemStack));
+        data.add(DataTracker.SerializedEntry.create(ItemDisplayEntityAccessor.getITEM_DISPLAY(), ModelTransformationMode.FIXED.getValue()));
+        data.add(DataTracker.SerializedEntry.create(DisplayEntityAccessor.getBRIGHTNESS(), 255));
     }
     @Override
     public int getWidthPixels() {
@@ -85,13 +103,21 @@ public class CustomPaintingEntity extends AbstractDecorationEntity implements Po
             if (entity instanceof PlayerEntity playerEntity && playerEntity.getAbilities().creativeMode) {
                 return;
             }
-
             this.dropItem(CustomItems.CUSTOM_PAINTING);
         }
     }
     @Override
     public void onPlace() {
         this.playSound(SoundEvents.ENTITY_PAINTING_PLACE, 1.0F, 1.0F);
+        PaintingEntity paintingEntity = new PaintingEntity(getWorld(), attachmentPos, this.facing, Registries.PAINTING_VARIANT.getHolderOrThrow(PaintingVariants.KEBAB));
+        getWorld().spawnEntity(paintingEntity);
+        this.paintingEntities.add(paintingEntity);
+        //this.setBoundingBox(new Box(attachmentPos, attachmentPos.add(2, 2, 2)));
+        /*ElementHolder holder = new ElementHolder();
+        InteractionElement interaction = new InteractionElement();
+        holder.addElement(interaction);
+
+        EntityAttachment.ofTicking(holder, this);*/
     }
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
@@ -165,5 +191,33 @@ public class CustomPaintingEntity extends AbstractDecorationEntity implements Po
     @Override
     public ItemStack getPickBlockStack() {
         return new ItemStack(CustomItems.CUSTOM_PAINTING);
+    }
+    @Override
+    public void tick(){
+        boolean alive = true;
+        for (PaintingEntity entity : paintingEntities){
+            if (!entity.isAlive()){
+                alive = false;
+                PlayerEntity nearestPlayer = getWorld().getClosestPlayer(this, 10);
+                for (var item : getWorld().getOtherEntities(this, new Box(getBlockPos()).expand(0.5))){
+                    if (item instanceof ItemEntity){
+                        if (((ItemEntity) item).getStack().getItem().equals(Items.PAINTING) && nearestPlayer != null && !nearestPlayer.isCreative()){
+                            ((ItemEntity) item).getStack().decrement(1);
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+        }
+        if (!alive){
+            for (PaintingEntity entity : paintingEntities){
+                entity.kill();
+            }
+            paintingEntities.clear();
+            onBreak(getWorld().getClosestPlayer(this, 10));
+            kill();
+        }
+        super.tick();
     }
 }

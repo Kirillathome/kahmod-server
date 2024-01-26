@@ -2,6 +2,7 @@ package me.kirillathome.kahmod;
 
 import eu.pb4.polymer.core.api.entity.PolymerEntityUtils;
 import me.kirillathome.kahmod.entities.CustomPaintingEntity;
+import me.kirillathome.kahmod.entities.HitboxEntity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -15,7 +16,7 @@ public class CustomEntities {
             Registries.ENTITY_TYPE,
             new Identifier("kahmod", "custom_painting"),
             QuiltEntityTypeBuilder.create(SpawnGroup.MISC, CustomPaintingEntity::new)
-                    .setDimensions(EntityDimensions.fixed(0.5F, 0.5F))
+                    .setDimensions(EntityDimensions.changing(0F, 0F))
                     .maxChunkTrackingRange(10)
                     .trackingTickInterval(Integer.MAX_VALUE)
                     .build()
