@@ -1,18 +1,16 @@
 package me.kirillathome.kahmod.items;
 
 import eu.pb4.polymer.core.api.item.PolymerItem;
-import me.kirillathome.kahmod.KahMod;
+import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
 import me.kirillathome.kahmod.entities.CustomPaintingEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.decoration.AbstractDecorationEntity;
-import net.minecraft.entity.decoration.GlowItemFrameEntity;
-import net.minecraft.entity.decoration.ItemFrameEntity;
-import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -31,6 +29,10 @@ public class PolymerDecorationItem extends DecorationItem implements PolymerItem
         return Items.STICK;
     }
 
+    @Override
+    public int getPolymerCustomModelData(ItemStack itemStack, @Nullable ServerPlayerEntity player) {
+        return PolymerResourcePackUtils.requestModel(Items.STICK, new Identifier("kahmod", "item/custom_painting")).value();
+    }
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {

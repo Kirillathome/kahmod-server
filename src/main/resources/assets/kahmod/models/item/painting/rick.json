@@ -1,0 +1,8 @@
+{
+	"parent": "kahmod:item/painting/preset_1x2",
+	"textures": {
+		"0": "kahmod:item/painting/back",
+		"1": "kahmod:item/painting/rick",
+		"particle": "kahmod:item/painting/back"
+	}
+}

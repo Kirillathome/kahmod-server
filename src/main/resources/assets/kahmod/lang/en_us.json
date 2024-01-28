@@ -7,6 +7,8 @@
   "item.kahmod.custom_painting": "Painting",
   "item.kahmod.dummy": "Dummy Item",
 
+  "entity.kahmod.custom_painting": "Custom Painting",
+
   "subtitles.item.copper_horn.play": "Copper Horn plays",
   "tooltip.copper_horn.kahmod.vine_boom": "Vine Boom",
   "tooltip.copper_horn.kahmod.yippie": "Yippie!",

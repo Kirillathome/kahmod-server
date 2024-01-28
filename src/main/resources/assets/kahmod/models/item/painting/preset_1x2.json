@@ -2,13 +2,13 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "kahmod:item/painting/back",
-		"1": "kahmod:item/painting/dumbcat",
+		"1": "kahmod:item/painting/rick",
 		"particle": "kahmod:item/painting/back"
 	},
 	"elements": [
 		{
 			"from": [0, 0, 0],
-			"to": [16, 16, 1],
+			"to": [16, 32, 1],
 			"faces": {
 				"north": {"uv": [0, 0, 16, 16], "texture": "#0"},
 				"east": {"uv": [0, 0, 1, 16], "texture": "#0"},

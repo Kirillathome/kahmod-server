@@ -2,7 +2,6 @@ package me.kirillathome.kahmod;
 
 import eu.pb4.polymer.core.api.entity.PolymerEntityUtils;
 import me.kirillathome.kahmod.entities.CustomPaintingEntity;
-import me.kirillathome.kahmod.entities.HitboxEntity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
