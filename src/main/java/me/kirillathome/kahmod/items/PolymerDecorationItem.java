@@ -2,6 +2,7 @@ package me.kirillathome.kahmod.items;
 
 import eu.pb4.polymer.core.api.item.PolymerItem;
 import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
+import me.kirillathome.kahmod.KahMod;
 import me.kirillathome.kahmod.entities.CustomPaintingEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.decoration.AbstractDecorationEntity;
@@ -42,6 +43,7 @@ public class PolymerDecorationItem extends DecorationItem implements PolymerItem
         PlayerEntity playerEntity = context.getPlayer();
         ItemStack itemStack = context.getStack();
         if (playerEntity != null && !this.canPlaceOn(playerEntity, direction, itemStack, blockPos2)) {
+            KahMod.LOGGER.info("");
             return ActionResult.FAIL;
         } else {
             World world = context.getWorld();
@@ -55,19 +57,13 @@ public class PolymerDecorationItem extends DecorationItem implements PolymerItem
             if (nbtCompound != null) {
                 EntityType.loadFromEntityNbt(world, playerEntity, abstractDecorationEntity, nbtCompound);
             }
-
-            if (abstractDecorationEntity.canStayAttached()) {
-                if (!world.isClient) {
-                    abstractDecorationEntity.onPlace();
-                    world.emitGameEvent(playerEntity, GameEvent.ENTITY_PLACE, abstractDecorationEntity.getPos());
-                    world.spawnEntity(abstractDecorationEntity);
-                }
-
-                itemStack.decrement(1);
-                return ActionResult.success(world.isClient);
-            } else {
-                return ActionResult.CONSUME;
+            if (!world.isClient) {
+                abstractDecorationEntity.onPlace();
+                world.emitGameEvent(playerEntity, GameEvent.ENTITY_PLACE, abstractDecorationEntity.getPos());
+                world.spawnEntity(abstractDecorationEntity);
             }
+            itemStack.decrement(1);
+            return ActionResult.success(world.isClient);
         }
     }
 }

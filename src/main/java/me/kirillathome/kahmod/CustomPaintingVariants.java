@@ -7,8 +7,13 @@ import net.minecraft.util.Identifier;
 public enum CustomPaintingVariants {
     DUMB_CAT(16, 16, new Identifier("kahmod", "dumbcat")),
     BACKROOMS(16, 16, new Identifier("kahmod", "backrooms")),
+    GARBAGE(16, 16, new Identifier("kahmod", "garbage")),
     PLINK(32, 16, new Identifier("kahmod", "plink")),
-    RICK(16, 32, new Identifier("kahmod", "rick"));
+    RICK(16, 32, new Identifier("kahmod", "rick")),
+    MRBEAST(48, 32, new Identifier("kahmod", "mrbeast")),
+    CHIPI(48, 32, new Identifier("kahmod", "chipi")),
+    CONFUSED(48, 32, new Identifier("kahmod", "confused")),
+    BITE(64, 48, new Identifier("kahmod", "bite"));
 
     public final int width;
     public final int height;

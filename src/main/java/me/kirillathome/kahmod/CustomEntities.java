@@ -2,6 +2,7 @@ package me.kirillathome.kahmod;
 
 import eu.pb4.polymer.core.api.entity.PolymerEntityUtils;
 import me.kirillathome.kahmod.entities.CustomPaintingEntity;
+import me.kirillathome.kahmod.entities.PolymerPaintingHitbox;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -21,9 +22,20 @@ public class CustomEntities {
                     .build()
     );
 
+    public static final EntityType<PolymerPaintingHitbox> PAINTING_HITBOX = Registry.register(
+            Registries.ENTITY_TYPE,
+            new Identifier("kahmod", "painting_hitbox"),
+            QuiltEntityTypeBuilder.<PolymerPaintingHitbox>create(SpawnGroup.MISC, PolymerPaintingHitbox::new)
+                    .setDimensions(EntityDimensions.changing(0.5F, 0.5F))
+                    .maxChunkTrackingRange(10)
+                    .trackingTickInterval(Integer.MAX_VALUE)
+                    .build()
+    );
+
     public static void registerClass(){
         KahMod.LOGGER.info("Loading custom Entities");
         PolymerEntityUtils.registerType(CUSTOM_PAINTING);
+        PolymerEntityUtils.registerType(PAINTING_HITBOX);
     }
 
 }

@@ -6,14 +6,13 @@ import eu.pb4.polymer.virtualentity.mixin.accessors.ItemDisplayEntityAccessor;
 import me.kirillathome.kahmod.CustomEntities;
 import me.kirillathome.kahmod.CustomItems;
 import me.kirillathome.kahmod.CustomPaintingVariants;
+import me.kirillathome.kahmod.KahMod;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.decoration.AbstractDecorationEntity;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
-import net.minecraft.entity.decoration.painting.PaintingVariants;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -21,7 +20,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
-import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.TypeFilter;
@@ -39,7 +37,7 @@ import java.util.function.Consumer;
 
 public class CustomPaintingEntity extends AbstractDecorationEntity implements PolymerEntity {
     private CustomPaintingVariants VARIANT = CustomPaintingVariants.DUMB_CAT;
-    private List<PaintingEntity> paintingEntities = new ArrayList<>();
+    private List<PolymerPaintingHitbox> hitboxes = new ArrayList<>();
 
     public CustomPaintingEntity(EntityType<? extends AbstractDecorationEntity> entityType, World world) {
         super(entityType, world);
@@ -102,6 +100,7 @@ public class CustomPaintingEntity extends AbstractDecorationEntity implements Po
     @Override
     public void onBreak(@Nullable Entity entity) {
         if (this.getWorld().getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
+            this.playSound(SoundEvents.ENTITY_PAINTING_BREAK, 1.0F, 1.0F);
             if (entity instanceof PlayerEntity playerEntity && playerEntity.getAbilities().creativeMode) {
                 return;
             }
@@ -111,30 +110,30 @@ public class CustomPaintingEntity extends AbstractDecorationEntity implements Po
     @Override
     public void onPlace() {
         this.playSound(SoundEvents.ENTITY_PAINTING_PLACE, 1.0F, 1.0F);
-        for (int offset = 0; offset < getWidthPixels() / 16; offset++){
-            PaintingEntity paintingEntity = new PaintingEntity(getWorld(), attachmentPos.offset(this.facing.rotateYCounterclockwise(), offset), this.facing, Registries.PAINTING_VARIANT.getHolderOrThrow(PaintingVariants.KEBAB));
-            getWorld().spawnEntity(paintingEntity);
-            this.paintingEntities.add(paintingEntity);
-        }
-        for (int offset = 1; offset < getHeightPixels() / 16; offset++){
-            PaintingEntity paintingEntity = new PaintingEntity(getWorld(), attachmentPos.offset(Direction.UP, offset), this.facing, Registries.PAINTING_VARIANT.getHolderOrThrow(PaintingVariants.KEBAB));
-            getWorld().spawnEntity(paintingEntity);
-            this.paintingEntities.add(paintingEntity);
+        for (int offset_width = 0; offset_width < getWidthPixels() / 16; offset_width++){
+            for (int offset_height = 0; offset_height < getHeightPixels() / 16; offset_height++){
+                PolymerPaintingHitbox hitbox = new PolymerPaintingHitbox(
+                        getWorld(),
+                        attachmentPos.offset(this.facing.rotateYCounterclockwise(), offset_width).offset(Direction.UP, offset_height),
+                        this.facing,
+                        this
+                );
+                getWorld().spawnEntity(hitbox);
+            }
         }
     }
     private void getHitboxes(){
-        for (int offset = 0; offset < getWidthPixels() / 16; offset++){
-            Box searchbox = new Box(attachmentPos.offset(this.facing.rotateYCounterclockwise(), offset)).shrink(0.1, 0.1, 0.1);
-            for (PaintingEntity entity : getWorld().getEntitiesByType(TypeFilter.instanceOf(PaintingEntity.class), searchbox, Objects::nonNull)){
-                this.paintingEntities.add(entity);
-                break;
-            }
-        }
-        for (int offset = 1; offset < getHeightPixels() / 16; offset++){
-            Box searchbox = new Box(attachmentPos.offset(Direction.UP, offset)).shrink(0.1, 0.1, 0.1);
-            for (PaintingEntity entity : getWorld().getEntitiesByType(TypeFilter.instanceOf(PaintingEntity.class), searchbox, Objects::nonNull)){
-                this.paintingEntities.add(entity);
-                break;
+        for (int offset_width = 0; offset_width < getWidthPixels() / 16; offset_width++){
+            for (int offset_height = 0; offset_height < getHeightPixels() / 16; offset_height++){
+                Box searchbox = new Box(attachmentPos.offset(this.facing.rotateYCounterclockwise(), offset_width).offset(Direction.UP, offset_height));
+                for (AbstractDecorationEntity entity : getWorld().getEntitiesByType(TypeFilter.instanceOf(AbstractDecorationEntity.class), searchbox, Objects::nonNull)){
+                    //KahMod.LOGGER.info("Found Hitbox: %s".formatted(entity));
+                    if (entity instanceof PolymerPaintingHitbox) {
+                        this.hitboxes.add((PolymerPaintingHitbox) entity);
+                        ((PolymerPaintingHitbox) entity).setOwner(this);
+                        break;
+                    }
+                }
             }
         }
     }
@@ -181,21 +180,27 @@ public class CustomPaintingEntity extends AbstractDecorationEntity implements Po
             return Optional.empty();
         } else {
             paintingEntity.setFacing(direction);
+            paintingEntity.updateAttachmentPosition();
             list.removeIf(painting -> {
                 paintingEntity.setVariant(painting);
                 return paintingEntity.isClipping();
             });
+            //KahMod.LOGGER.info(String.valueOf(list));
             if (list.isEmpty()){
+                //KahMod.LOGGER.info("failed cause list is empty");
                 return Optional.empty();
             } else {
                 int i = list.stream().mapToInt(CustomPaintingEntity::getVariantArea).max().orElse(1);
                 list.removeIf(variant -> getVariantArea(variant) < i);
                 Optional<CustomPaintingVariants> optional = Util.getRandomOrEmpty(list, paintingEntity.random);
                 if (optional.isEmpty()){
+                    //KahMod.LOGGER.info("failed cause didn't get random??");
                     return Optional.empty();
                 } else {
+                    //KahMod.LOGGER.info("didn't fail???");
                     paintingEntity.setVariant(optional.get());
                     paintingEntity.setFacing(direction);
+                    paintingEntity.updateAttachmentPosition();
                     return Optional.of(paintingEntity);
                 }
             }
@@ -203,19 +208,25 @@ public class CustomPaintingEntity extends AbstractDecorationEntity implements Po
     }
 
     public boolean isClipping(){
-        for (int offset = 0; offset < getWidthPixels() / 16; offset++){
-            BlockPos currentBlock = attachmentPos.offset(this.facing.rotateYCounterclockwise(), offset);
-            if (!getWorld().getBlockState(currentBlock).isAir() || !canStayAttached() || !getWorld().getOtherEntities(this, new Box(currentBlock), entity -> entity instanceof PaintingEntity).isEmpty()){
-                return true;
-            }
-        }
-        for (int offset = 1; offset < getHeightPixels() / 16; offset++){
-            BlockPos currentBlock = attachmentPos.offset(Direction.UP, offset);
-            if (!getWorld().getBlockState(currentBlock).isAir() || !canStayAttached() || !getWorld().getOtherEntities(this, new Box(currentBlock), entity -> entity instanceof PaintingEntity).isEmpty()){
-                return true;
+        //updateAttachmentPosition();
+        for (int offset_width = 0; offset_width < getWidthPixels() / 16; offset_width++){
+            for (int offset_height = 0; offset_height < getHeightPixels() / 16; offset_height++){
+                BlockPos currentBlock = attachmentPos.offset(this.facing.rotateYCounterclockwise(), offset_width).offset(Direction.UP, offset_height);
+                if (!getWorld().getBlockState(currentBlock).isAir() || !getWorld().getOtherEntities(this, new Box(currentBlock), entity -> entity instanceof PolymerPaintingHitbox).isEmpty() || getWorld().getBlockState(currentBlock.offset(this.facing.getOpposite())).isAir()){
+                    //KahMod.LOGGER.info("FAILED!! Variant: %s, Block: %s".formatted(this.VARIANT, currentBlock));
+                    return true;
+                }
             }
         }
         return false;
+    }
+
+    public void handleBreak(@Nullable Entity entity){
+        for (PolymerPaintingHitbox paintingEntity : hitboxes){
+            paintingEntity.discard();
+        }
+        onBreak(entity);
+        discard();
     }
     @Override
     public void refreshPositionAndAngles(double x, double y, double z, float yaw, float pitch) {
@@ -237,10 +248,18 @@ public class CustomPaintingEntity extends AbstractDecorationEntity implements Po
         return new EntitySpawnS2CPacket(this, this.facing.getId(), this.getDecorationBlockPos());
     }
 
+    /*@Override
+    public void tick(){
+        super.tick();
+        if (hitboxes.isEmpty()){
+            getHitboxes();
+        }
+    }*/
+
     @Override
     public void onEntityPacketSent(Consumer<Packet<?>> consumer, Packet<?> packet) {
         PolymerEntity.super.onEntityPacketSent(consumer, packet);
-        if (this.paintingEntities.isEmpty()){
+        if (this.hitboxes.isEmpty()){
             getHitboxes();
         }
     }
@@ -249,38 +268,5 @@ public class CustomPaintingEntity extends AbstractDecorationEntity implements Po
     public void onSpawnPacket(EntitySpawnS2CPacket packet) {
         super.onSpawnPacket(packet);
         this.setFacing(Direction.byId(packet.getEntityData()));
-    }
-
-    @Override
-    public ItemStack getPickBlockStack() {
-        return new ItemStack(CustomItems.CUSTOM_PAINTING);
-    }
-
-    @Override
-    public void tick(){
-        boolean alive = true;
-        for (PaintingEntity entity : paintingEntities){
-            if (entity != null && !entity.isAlive()){
-                alive = false;
-                PlayerEntity nearestPlayer = getWorld().getClosestPlayer(this, 10);
-                for (var item : getWorld().getOtherEntities(this, new Box(getBlockPos()).expand(0.5))){
-                    if (item instanceof ItemEntity){
-                        if (((ItemEntity) item).getStack().getItem().equals(Items.PAINTING) && nearestPlayer != null && !nearestPlayer.isCreative()){
-                            ((ItemEntity) item).getStack().decrement(1);
-                            break;
-                        }
-                    }
-                }
-                break;
-            }
-        }
-        if (!alive){
-            for (PaintingEntity entity : paintingEntities){
-                entity.kill();
-            }
-            onBreak(getWorld().getClosestPlayer(this, 10));
-            kill();
-        }
-        super.tick();
     }
 }
