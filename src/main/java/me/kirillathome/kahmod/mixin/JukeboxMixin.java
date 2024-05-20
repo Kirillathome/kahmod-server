@@ -36,10 +36,10 @@ public abstract class JukeboxMixin extends Block {
         if (state.get(HAS_RECORD)){
             BlockEntity var8 = world.getBlockEntity(pos);
             if (var8 instanceof JukeboxBlockEntity jukeboxBlockEntity) {
-                ItemStack itemStack = jukeboxBlockEntity.getItem();
+                ItemStack itemStack = jukeboxBlockEntity.method_54079(); // This is very probably going to break in the future
                 if (itemStack.getItem() instanceof CustomMusicDiscItem && world.getServer() != null){
                     for (ServerPlayerEntity serverPlayer : world.getServer().getPlayerManager().getPlayerList()){
-                        serverPlayer.networkHandler.sendPacket(new SoundStopS2CPacket(((CustomMusicDiscItem) itemStack.getItem()).getSound().getId(), SoundCategory.RECORDS));
+                        serverPlayer.networkHandler.send(new SoundStopS2CPacket(((CustomMusicDiscItem) itemStack.getItem()).getSound().getId(), SoundCategory.RECORDS));
                     }
                 }
             }

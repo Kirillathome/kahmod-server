@@ -28,12 +28,12 @@ public abstract class JukeboxEntityMixin extends BlockEntity {
     public JukeboxEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
-    @Shadow public abstract ItemStack getStack(int slot);
+    @Shadow public abstract ItemStack method_54079();
     @Inject(method = "startPlaying", at = @At("TAIL"))
     private void injectStartPlaying(CallbackInfo ci) {
-        if (getStack(0).getItem() instanceof CustomMusicDiscItem customMusicDiscItem){
+        if (method_54079().getItem() instanceof CustomMusicDiscItem customMusicDiscItem){
             for (ServerPlayerEntity player : getWorld().getServer().getPlayerManager().getPlayerList()) {
-                player.networkHandler.sendPacket(new SoundPlayS2CPacket(Holder.createDirect(customMusicDiscItem.getSound()), SoundCategory.RECORDS, pos.getX(), pos.getY(), pos.getZ(), 1f, 1f, world.getRandom().nextLong()));
+                player.networkHandler.send(new SoundPlayS2CPacket(Holder.createDirect(customMusicDiscItem.getSound()), SoundCategory.RECORDS, pos.getX(), pos.getY(), pos.getZ(), 1f, 1f, world.getRandom().nextLong()));
                 player.sendMessage(Text.literal("Now Playing: ").append(Text.translatable(customMusicDiscItem.getTranslationKey() + ".desc")).formatted(Formatting.AQUA), true);
             }
         }
@@ -41,10 +41,10 @@ public abstract class JukeboxEntityMixin extends BlockEntity {
     @Inject(method = "dropDisc", at = @At("HEAD"))
     private void injectDropDisc(CallbackInfo ci) {
         if (this.world != null && !this.world.isClient){
-            ItemStack itemStack = getStack(0);
+            ItemStack itemStack = method_54079();
             if (itemStack.getItem() instanceof CustomMusicDiscItem && world.getServer() != null){
                 for (ServerPlayerEntity serverPlayer : world.getServer().getPlayerManager().getPlayerList()){
-                    serverPlayer.networkHandler.sendPacket(new SoundStopS2CPacket(((CustomMusicDiscItem) itemStack.getItem()).getSound().getId(), SoundCategory.RECORDS));
+                    serverPlayer.networkHandler.send(new SoundStopS2CPacket(((CustomMusicDiscItem) itemStack.getItem()).getSound().getId(), SoundCategory.RECORDS));
                 }
             }
         }

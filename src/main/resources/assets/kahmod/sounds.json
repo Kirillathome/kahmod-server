@@ -1,20 +1,27 @@
 {
+  "disappear": {
+    "subtitle": "subtitles.other.disappear",
+    "sounds": [
+      "kahmod:disappear"
+    ]
+  },
+
   "vine_boom": {
     "subtitle": "subtitles.item.copper_horn.play",
     "sounds": [
-        "kahmod:custom/vine_boom"
+        "kahmod:horns/vine_boom"
     ]
   },
   "yippie": {
     "subtitle": "subtitles.item.copper_horn.play",
     "sounds": [
-      "kahmod:custom/yippie"
+      "kahmod:horns/yippie"
     ]
   },
   "sus": {
     "subtitle": "subtitles.item.copper_horn.play",
     "sounds": [
-      "kahmod:custom/sus"
+      "kahmod:horns/sus"
     ]
   },
   "music_disc.amogus": {

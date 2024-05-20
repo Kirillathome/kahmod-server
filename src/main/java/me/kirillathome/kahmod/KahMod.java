@@ -17,7 +17,7 @@ public class KahMod implements ModInitializer {
 		if (assets) LOGGER.info("Successfully registered mod assets!");
 		ConfigManager.init();
 		CustomItems.registerClass();
-		CustomEntities.registerClass();
+		//CustomEntities.registerClass();
 	}
 	public static final Logger LOGGER = LoggerFactory.getLogger("Kahmod");
 

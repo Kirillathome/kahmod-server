@@ -1,39 +1,36 @@
 package me.kirillathome.kahmod.mixin;
 
-import io.netty.buffer.Unpooled;
-import me.kirillathome.kahmod.KahMod;
 import me.kirillathome.kahmod.config.ConfigManager;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.PacketSendListener;
+import net.minecraft.network.listener.AbstractServerPacketHandler;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
+import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket;
+import net.minecraft.network.packet.s2c.payload.BrandPayload;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-@Mixin(ServerPlayNetworkHandler.class)
-public abstract class BrandMixin {
-    @Shadow public void sendPacket(Packet<?> packet, @Nullable PacketSendListener listener){}
+@Mixin(AbstractServerPacketHandler.class)
+public abstract class BrandMixin{
 
-    @Redirect(method = "sendPacket(Lnet/minecraft/network/packet/Packet;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayNetworkHandler;sendPacket(Lnet/minecraft/network/packet/Packet;Lnet/minecraft/network/PacketSendListener;)V"))
-    private void onSend(ServerPlayNetworkHandler instance, Packet<?> packet, @Nullable PacketSendListener listener){
+    @Shadow public abstract void send(Packet<?> packet, @Nullable PacketSendListener listener);
+
+    @Redirect(method = "send*", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/listener/AbstractServerPacketHandler;send(Lnet/minecraft/network/packet/Packet;Lnet/minecraft/network/PacketSendListener;)V"))
+    private void onSend(AbstractServerPacketHandler handler, Packet<?> packet, @Nullable PacketSendListener listener){
         if (packet instanceof CustomPayloadS2CPacket customPayloadS2CPacket) {
-            if (customPayloadS2CPacket.getChannel().equals(CustomPayloadS2CPacket.BRAND)) {
-                PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+            if (customPayloadS2CPacket.payload() instanceof BrandPayload) {
                 String brand = ConfigManager.getServerConfig().customBrand;
-                buf.writeString(brand);
-                CustomPayloadS2CPacket patched_packet = new CustomPayloadS2CPacket(CustomPayloadS2CPacket.BRAND, buf);
-                sendPacket(patched_packet, listener);
-                KahMod.LOGGER.info("Patched Packet: " + patched_packet.getData().readString());
+                CustomPayloadS2CPacket patched_packet = new CustomPayloadS2CPacket(new BrandPayload(brand));
+                this.send(patched_packet, null);
+                //KahMod.LOGGER.info("Patched Packet: " + patched_packet.getData().readString());
             } else {
-                sendPacket(packet, listener);
+                this.send(packet, null);
             }
         }
         else {
-            sendPacket(packet, listener);
+            this.send(packet, null);
         }
     }
 }

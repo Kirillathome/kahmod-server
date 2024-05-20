@@ -5,10 +5,10 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "EnchantmentMixin",
-    "GlowBerriesMixin"
+    "GlowBerriesMixin",
+    "CrashStickMixin"
   ],
   "client": [
-    "DebugHudMixin"
   ],
   "server": [
     "BrandMixin",

@@ -64,9 +64,9 @@ public class CopperHornItem extends Item implements PolymerItem {
         if (!world.isClient && world.getServer() != null && getSound(itemStack) != null){
             user.getItemCooldownManager().set(this, 140);
             for (ServerPlayerEntity player : world.getServer().getPlayerManager().getPlayerList()){
-                player.networkHandler.sendPacket(new SoundPlayS2CPacket(Holder.createDirect(getSound(itemStack)), SoundCategory.RECORDS, user.getX(), user.getEyeY(), user.getZ(), 16, 1, world.getRandom().nextLong()));
+                player.networkHandler.send(new SoundPlayS2CPacket(Holder.createDirect(getSound(itemStack)), SoundCategory.RECORDS, user.getX(), user.getEyeY(), user.getZ(), 16, 1, world.getRandom().nextLong()));
                 if (player.getName().equals(user.getName())){
-                    player.networkHandler.sendPacket(new CooldownUpdateS2CPacket(Items.IRON_NUGGET, 140));
+                    player.networkHandler.send(new CooldownUpdateS2CPacket(Items.IRON_NUGGET, 140));
                 }
             }
             return TypedActionResult.success(itemStack);

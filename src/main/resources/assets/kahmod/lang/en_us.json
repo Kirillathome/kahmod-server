@@ -4,12 +4,14 @@
   "item.kahmod.music_disc_amogus.desc": "Leonz - Among Us Trap Remix",
   "item.kahmod.music_disc_mrbigshot": "Music Disc",
   "item.kahmod.music_disc_mrbigshot.desc": "i-win - [[ MR. BIG SHOT ]]",
-  "item.kahmod.custom_painting": "Painting",
   "item.kahmod.dummy": "Dummy Item",
+  "item.kahmod.crash_stick": "Funni Stick",
 
   "entity.kahmod.custom_painting": "Custom Painting",
 
   "subtitles.item.copper_horn.play": "Copper Horn plays",
+  "subtitles.other.disappear": "Something Disappears...",
+
   "tooltip.copper_horn.kahmod.vine_boom": "Vine Boom",
   "tooltip.copper_horn.kahmod.yippie": "Yippie!",
   "tooltip.copper_horn.kahmod.sus": "Sus"

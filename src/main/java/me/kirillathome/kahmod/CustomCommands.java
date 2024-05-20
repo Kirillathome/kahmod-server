@@ -5,7 +5,6 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
-import io.netty.buffer.Unpooled;
 import me.kirillathome.kahmod.config.ConfigManager;
 import me.kirillathome.kahmod.config.ServerConfig;
 import net.minecraft.command.CommandSource;
@@ -13,8 +12,8 @@ import net.minecraft.command.EntitySelector;
 import net.minecraft.command.argument.ColorArgumentType;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
+import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket;
+import net.minecraft.network.packet.s2c.payload.BrandPayload;
 import net.minecraft.network.packet.s2c.play.TitleS2CPacket;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.server.command.CommandManager;
@@ -22,7 +21,6 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
 
 import java.util.*;
 
@@ -47,7 +45,7 @@ public final class CustomCommands {
                         )
                 )
                 .then(CommandManager.literal("blacklist")
-                        .requires(source -> source.hasPermissionLevel(2))
+                        .requires(source -> source.hasPermission(2))
                         .then(CommandManager.literal("get")
                             .then(CommandManager.argument("target", EntityArgumentType.player())
                                     .executes(context -> blacklist_get_full_response(context.getSource(), context.getArgument("target", EntitySelector.class).getPlayer(context.getSource()).getName().getString()))
@@ -86,7 +84,7 @@ public final class CustomCommands {
                                 )
                         )
                 )
-                .requires(source -> source.hasPermissionLevel(2))
+                .requires(source -> source.hasPermission(2))
                 .then(CommandManager.literal("config")
                         .then(CommandManager.literal("reload")
                                 .executes(context -> reloadConfig(context.getSource()))
@@ -209,14 +207,14 @@ public final class CustomCommands {
            Text title = Text.literal("%s ist kein Gewinner!".formatted(player.getName().getString())).formatted(formatting);
            TitleS2CPacket packet = new TitleS2CPacket(title);
            for (ServerPlayerEntity players : source.getServer().getPlayerManager().getPlayerList()){
-               players.networkHandler.sendPacket(packet);
+               players.networkHandler.send(packet);
            }
         }
         else {
             Text title = Text.literal("Maul %s".formatted(target)).formatted(formatting);
             TitleS2CPacket packet = new TitleS2CPacket(title);
             for (ServerPlayerEntity players : source.getServer().getPlayerManager().getPlayerList()){
-                players.networkHandler.sendPacket(packet);
+                players.networkHandler.send(packet);
             }
         }
         return Command.SINGLE_SUCCESS;
@@ -288,7 +286,7 @@ public final class CustomCommands {
         ConfigManager.reloadServerConfig();
         config = ConfigManager.getServerConfig();
         for (ServerPlayerEntity player : source.getWorld().getPlayers()){
-            player.networkHandler.sendPacket(new CustomPayloadS2CPacket(CustomPayloadS2CPacket.BRAND, new PacketByteBuf(Unpooled.buffer())));
+            player.networkHandler.send(new CustomPayloadS2CPacket(new BrandPayload("dummy text")));
         }
         source.sendFeedback(() -> Text.literal("Successfully reloaded config!"), true);
         return Command.SINGLE_SUCCESS;
