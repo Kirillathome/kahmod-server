@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "tag": "kahmod:horn_materials"
+  },
+  "base": {
+    "item": "kahmod:copper_horn"
+  },
+  "result": {
+    "item": "kahmod:copper_horn"
+  },
+  "template": {
+    "item": "kahmod:horn_upgrade"
+  }
+}

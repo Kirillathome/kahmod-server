@@ -1,0 +1,6 @@
+{
+  "parent": "kahmod:item/horn/template",
+  "textures": {
+    "layer0": "kahmod:item/horns/creeper"
+  }
+}

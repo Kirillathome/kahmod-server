@@ -1,6 +1,6 @@
 package me.kirillathome.kahmod.util;
 
-import me.kirillathome.kahmod.CustomSounds;
+import me.kirillathome.kahmod.enums.CustomSounds;
 import net.minecraft.network.packet.s2c.play.SoundPlayS2CPacket;
 import net.minecraft.registry.Holder;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -13,6 +13,11 @@ import net.minecraft.world.World;
 import java.util.Objects;
 
 public class SoundHelper {
+
+    public static void playSound(CustomSounds customSoundEvent, SoundCategory soundCategory, World world, double x, double y, double z) {
+        playSound(customSoundEvent, soundCategory, world, x, y, z, 1f, 1f);
+    }
+
     public static void playSound(CustomSounds customSoundEvent, SoundCategory soundCategory, World world, double x, double y, double z, float volume, float pitch) {
         SoundEvent vanillaSoundEvent = customSoundEvent.toSoundEvent();
         if (world.getServer() != null) {

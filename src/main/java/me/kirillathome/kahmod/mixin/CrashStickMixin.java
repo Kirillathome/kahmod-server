@@ -1,7 +1,7 @@
 package me.kirillathome.kahmod.mixin;
 
 import me.kirillathome.kahmod.CustomItems;
-import me.kirillathome.kahmod.CustomSounds;
+import me.kirillathome.kahmod.enums.CustomSounds;
 import me.kirillathome.kahmod.util.SoundHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;

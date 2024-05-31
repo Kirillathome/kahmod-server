@@ -6,13 +6,24 @@
   "item.kahmod.music_disc_mrbigshot.desc": "i-win - [[ MR. BIG SHOT ]]",
   "item.kahmod.dummy": "Dummy Item",
   "item.kahmod.crash_stick": "Funni Stick",
+  "item.kahmod.horn_upgrade": "Smithing Template",
 
   "entity.kahmod.custom_painting": "Custom Painting",
 
   "subtitles.item.copper_horn.play": "Copper Horn plays",
   "subtitles.other.disappear": "Something Disappears...",
 
-  "tooltip.copper_horn.kahmod.vine_boom": "Vine Boom",
-  "tooltip.copper_horn.kahmod.yippie": "Yippie!",
-  "tooltip.copper_horn.kahmod.sus": "Sus"
+  "tooltip.copper_horn.kahmod.gunpowder": "Vine Boom",
+  "tooltip.copper_horn.kahmod.emerald": "Yippie!",
+  "tooltip.copper_horn.kahmod.red_dye": "Sus",
+  "tooltip.copper_horn.kahmod.glass_pane": "Gaster",
+  "tooltip.copper_horn.kahmod.bone": "Bad to the Bone",
+
+  "item.kahmod.smithing_template.horn_upgrade.upgrade": "Horn Upgrade",
+  "item.kahmod.smithing_template.horn_upgrade.additions_slot_description": "Add Horn Material",
+  "item.kahmod.smithing_template.horn_upgrade.applies_to": "Copper Horn",
+  "item.kahmod.smithing_template.horn_upgrade.base_slot_description": "Add Copper Horn",
+  "item.kahmod.smithing_template.horn_upgrade.ingredients": "Horn Materials",
+  "item.kahmod.smithing_template.applies_to": "Applies to:",
+  "item.kahmod.smithing_template.ingredients": "Ingredients:"
 }

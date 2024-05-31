@@ -1,6 +1,5 @@
 package me.kirillathome.kahmod;
 
-import me.kirillathome.kahmod.listeners.ItemCraftingListener;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.server.DedicatedServerModInitializer;
 import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
@@ -13,6 +12,5 @@ public class ServerInit implements DedicatedServerModInitializer {
         CommandRegistrationCallback.EVENT.register((dispatcher, buildContext, environment) -> CustomCommands.registerRSMPCommand(dispatcher));
         CommandRegistrationCallback.EVENT.register((dispatcher, buildContext, environment) -> CustomCommands.registerStatusCommand(dispatcher));
         CommandRegistrationCallback.EVENT.register((dispatcher, buildContext, environment) -> CustomCommands.registerMaulCommand(dispatcher));
-        ItemCraftingListener.registerListener();
     }
 }

@@ -6,22 +6,34 @@
     ]
   },
 
-  "vine_boom": {
+  "horns.vine_boom": {
     "subtitle": "subtitles.item.copper_horn.play",
     "sounds": [
         "kahmod:horns/vine_boom"
     ]
   },
-  "yippie": {
+  "horns.yippie": {
     "subtitle": "subtitles.item.copper_horn.play",
     "sounds": [
       "kahmod:horns/yippie"
     ]
   },
-  "sus": {
+  "horns.sus": {
     "subtitle": "subtitles.item.copper_horn.play",
     "sounds": [
       "kahmod:horns/sus"
+    ]
+  },
+  "horns.gaster": {
+    "subtitle": "subtitles.item.copper_horn.play",
+    "sounds": [
+      "kahmod:disappear"
+    ]
+  },
+  "horns.bone": {
+    "subtitle": "subtitles.item.copper_horn.play",
+    "sounds": [
+      "kahmod:horns/bone"
     ]
   },
   "music_disc.amogus": {

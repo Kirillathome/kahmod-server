@@ -1,7 +1,9 @@
 {
   "values": [
     "minecraft:emerald",
-    "minecraft:tnt",
-    "minecraft:iron_sword"
+    "minecraft:gunpowder",
+    "minecraft:red_dye",
+    "minecraft:glass_pane",
+    "minecraft:bone"
   ]
 }
