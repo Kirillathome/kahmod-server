@@ -1,0 +1,12 @@
+{
+  "type": "stonecutting",
+  "ingredient": "kahmod:copper_horn",
+  "result": {
+    "id": "kahmod:copper_horn",
+    "components": {
+      "custom_data": {
+        "CopperHornInstrument": "horn.bone"
+      }
+    }
+  }
+}

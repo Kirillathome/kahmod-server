@@ -1,0 +1,10 @@
+{
+  "type": "crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "kahmod:invisible_glow_item_frame"
+  ],
+  "result": {
+    "id": "minecraft:glow_item_frame"
+  }
+}

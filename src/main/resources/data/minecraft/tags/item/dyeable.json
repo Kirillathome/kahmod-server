@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#kahmod:chest_equipment",
+    "#minecraft:foot_armor",
+    "#minecraft:leg_armor",
+    "#minecraft:head_armor"
+  ]
+}
