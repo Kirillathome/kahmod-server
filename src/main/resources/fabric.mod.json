@@ -1,0 +1,34 @@
+{
+	"schemaVersion": 1,
+	"id": "kahmod",
+	"version": "1.7.0",
+	"name": "Kahmod",
+	"description": "Yet another rewrite of the terrible server mod",
+	"authors": [
+		"Kirillathome"
+	],
+	"contact": {
+		"homepage": "https://kirillathome.uucode.com/",
+		"sources": "https://github.com/Kirillathome/kahmod-server"
+	},
+	"license": "WTFPL",
+	"icon": "assets/kahmod/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"dev.kirillathome.kahmod.Kahmod"
+		],
+		"server": [
+			"dev.kirillathome.kahmod.KahmodServer"
+		]
+	},
+	"mixins": [
+		"kahmod.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.12",
+		"minecraft": "~26.1",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

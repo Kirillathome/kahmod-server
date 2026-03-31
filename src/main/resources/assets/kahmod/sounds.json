@@ -1,38 +1,117 @@
 {
-  "vine_boom": {
-    "subtitle": "subtitles.item.copper_horn.play",
-    "sounds": [
-        "kahmod:custom/vine_boom"
-    ]
-  },
-  "yippie": {
-    "subtitle": "subtitles.item.copper_horn.play",
-    "sounds": [
-      "kahmod:custom/yippie"
-    ]
-  },
-  "sus": {
-    "subtitle": "subtitles.item.copper_horn.play",
-    "sounds": [
-      "kahmod:custom/sus"
-    ]
-  },
-  "music_disc.amogus": {
+  "disappear": {
+    "subtitle": "subtitle.kahmod.disappear",
     "sounds": [
       {
-        "name":"kahmod:records/amogus",
+        "name": "kahmod:misc/disappear",
+        "volume": 0.6
+      }
+    ]
+  },
+
+  "horn.bone": {
+    "subtitle": "subtitle.kahmod.copper_horn",
+    "sounds": [
+      "kahmod:horn/bone"
+    ]
+  },
+  "horn.damn": {
+    "subtitle": "subtitle.kahmod.copper_horn",
+    "sounds": [
+      "kahmod:horn/damn"
+    ]
+  },
+  "horn.disappointed": {
+    "subtitle": "subtitle.kahmod.copper_horn",
+    "sounds": [
+      "kahmod:horn/disappointed"
+    ]
+  },
+  "horn.fail": {
+    "subtitle": "subtitle.kahmod.copper_horn",
+    "sounds": [
+      "kahmod:horn/fail"
+    ]
+  },
+  "horn.foghorn": {
+    "subtitle": "subtitle.kahmod.copper_horn",
+    "sounds": [
+      "kahmod:horn/foghorn"
+    ]
+  },
+  "horn.gambling": {
+    "subtitle": "subtitle.kahmod.copper_horn",
+    "sounds": [
+      "kahmod:horn/gambling"
+    ]
+  },
+  "horn.get_out": {
+    "subtitle": "subtitle.kahmod.copper_horn",
+    "sounds": [
+      "kahmod:horn/get_out"
+    ]
+  },
+  "horn.gong": {
+    "subtitle": "subtitle.kahmod.copper_horn",
+    "sounds": [
+      "kahmod:horn/gong"
+    ]
+  },
+  "horn.steve": {
+    "subtitle": "subtitle.kahmod.copper_horn",
+    "sounds": [
+      "kahmod:horn/steve"
+    ]
+  },
+  "horn.sus": {
+    "subtitle": "subtitle.kahmod.copper_horn",
+    "sounds": [
+      "kahmod:horn/sus"
+    ]
+  },
+  "horn.vine_boom": {
+    "subtitle": "subtitle.kahmod.copper_horn",
+    "sounds": [
+      "kahmod:horn/vine_boom"
+    ]
+  },
+  "horn.yippie": {
+    "subtitle": "subtitle.kahmod.copper_horn",
+    "sounds": [
+      "kahmod:horn/yippie"
+    ]
+  },
+
+  "music_disc.smile": {
+    "sounds": [
+      {
+        "name": "kahmod:records/mus_smile",
         "stream": true
       }
     ]
   },
-  "music_disc.mrbigshot": {
+  "music_disc.big_shot": {
     "sounds": [
       {
-        "name":"kahmod:records/mrbigshot",
-        "stream": true,
-        "volume": 0.7
+        "name": "kahmod:records/big_shot",
+        "stream": true
+      }
+    ]
+  },
+  "music_disc.lava_chicken": {
+    "sounds": [
+      {
+        "name": "kahmod:records/lava_chicken",
+        "stream": true
+      }
+    ]
+  },
+  "music_disc.windshields": {
+    "sounds": [
+      {
+        "name": "kahmod:records/windshields",
+        "stream": true
       }
     ]
   }
 }
-

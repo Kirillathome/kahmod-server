@@ -1,0 +1,10 @@
+{
+  "comparator_output": 11,
+  "description": {
+    "translate": "jukebox_song.kahmod.smile"
+  },
+  "length_in_seconds": 79.0,
+  "sound_event": {
+    "sound_id": "kahmod:music_disc.smile"
+  }
+}

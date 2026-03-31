@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": "#minecraft:foot_armor",
+  "addition": "#kahmod:cosmetic_materials",
+  "result": {
+    "id": "minecraft:structure_void"
+  }
+}

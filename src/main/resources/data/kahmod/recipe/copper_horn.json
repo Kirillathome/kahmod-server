@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "category": "misc",
+  "key": {
+    "-": "minecraft:copper_ingot",
+    "#": "minecraft:goat_horn"
+  },
+  "pattern": [
+    "---",
+    "-#-",
+    "---"
+  ],
+  "result": {
+    "id": "kahmod:copper_horn"
+  }
+}

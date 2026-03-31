@@ -1,0 +1,10 @@
+{
+  "comparator_output": 13,
+  "description": {
+    "translate": "jukebox_song.kahmod.big_shot"
+  },
+  "length_in_seconds": 140.0,
+  "sound_event": {
+    "sound_id": "kahmod:music_disc.big_shot"
+  }
+}

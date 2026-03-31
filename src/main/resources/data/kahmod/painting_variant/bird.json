@@ -1,0 +1,13 @@
+{
+  "asset_id": "kahmod:bird",
+  "author": {
+    "color": "gray",
+    "translate": "painting.kahmod.bird.author"
+  },
+  "height": 1,
+  "title": {
+    "color": "dark_purple",
+    "translate": "painting.kahmod.bird.title"
+  },
+  "width": 1
+}

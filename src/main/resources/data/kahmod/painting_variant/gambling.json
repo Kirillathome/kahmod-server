@@ -1,0 +1,13 @@
+{
+  "asset_id": "kahmod:gambling",
+  "author": {
+    "color": "gray",
+    "translate": "painting.kahmod.gambling.author"
+  },
+  "height": 2,
+  "title": {
+    "color": "dark_purple",
+    "translate": "painting.kahmod.gambling.title"
+  },
+  "width": 2
+}

@@ -1,5 +1,5 @@
 {
-  "parent": "item/tooting_goat_horn",
+  "parent": "item/generated",
   "textures": {
     "layer0": "kahmod:item/copper_horn"
   },
