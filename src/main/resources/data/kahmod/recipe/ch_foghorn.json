@@ -1,5 +1,5 @@
 {
-  "type": "stonecutting",
+  "type": "minecraft:stonecutting",
   "ingredient": "kahmod:copper_horn",
   "result": {
     "id": "kahmod:copper_horn",

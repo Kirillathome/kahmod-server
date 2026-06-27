@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "kahmod",
-	"version": "1.7.0",
+	"version": "1.7.1",
 	"name": "Kahmod",
 	"description": "Yet another rewrite of the terrible server mod",
 	"authors": [
@@ -27,7 +27,7 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.16.12",
-		"minecraft": "~26.1",
+		"minecraft": "~26.2",
 		"java": ">=25",
 		"fabric-api": "*"
 	}

@@ -13,16 +13,16 @@ import dev.kirillathome.kahmod.config.ServerConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.commands.arguments.ColorArgument;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.arguments.TeamColorArgument;
 import net.minecraft.commands.arguments.selector.EntitySelector;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
-import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket;
 import net.minecraft.network.protocol.common.custom.BrandPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.permissions.Permissions;
 import net.minecraft.world.scores.PlayerTeam;
+import net.minecraft.world.scores.TeamColor;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -152,13 +152,13 @@ public final class CustomCommands {
                 .then(
                         Commands.argument("status_arg", StringArgumentType.string())
                                 .then(
-                                        Commands.argument("color_arg", ColorArgument.color())
-                                                .executes(context -> (setStatus(context.getSource(), StringArgumentType.getString(context, "status_arg"), ColorArgument.getColor(context, "color_arg")))))
-                                .executes(context -> (setStatus(context.getSource(), StringArgumentType.getString(context, "status_arg"), ChatFormatting.WHITE)))
+                                        Commands.argument("color_arg", TeamColorArgument.teamColor())
+                                                .executes(context -> (setStatus(context.getSource(), StringArgumentType.getString(context, "status_arg"), TeamColorArgument.getTeamColor(context, "color_arg")))))
+                                .executes(context -> (setStatus(context.getSource(), StringArgumentType.getString(context, "status_arg"), TeamColor.WHITE)))
                 )
         );
     }
-    public static int setStatus(CommandSourceStack source, String status, ChatFormatting formatting){
+    public static int setStatus(CommandSourceStack source, String status, TeamColor formatting){
         ServerPlayer player = source.getPlayer();
         if (!source.isPlayer() || player == null){
             source.sendFailure(Component.literal(config.getCommandResponse("feedback.console")));
@@ -182,8 +182,8 @@ public final class CustomCommands {
             return 1;
         }
         source.getServer().getScoreboard().addPlayerToTeam(playerName, playerTeam);
-        playerTeam.setPlayerPrefix(Component.literal("["+status+"] ").withStyle(formatting));
-        source.sendSuccess(() -> Component.literal(config.getCommandResponse("status.set")).append(Component.literal("["+status+"]").withStyle(formatting)), false);
+        playerTeam.setPlayerPrefix(Component.literal("["+status+"] ").withColor(formatting.textColor()));
+        source.sendSuccess(() -> Component.literal(config.getCommandResponse("status.set")).append(Component.literal("["+status+"]").withColor(formatting.textColor())), false);
         return Command.SINGLE_SUCCESS;
     }
     public static int resetStatus(CommandSourceStack source){

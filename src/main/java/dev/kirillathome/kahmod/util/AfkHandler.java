@@ -7,9 +7,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.scores.PlayerTeam;
+import net.minecraft.world.scores.TeamColor;
 
-import java.io.IOException;
 import java.util.Objects;
+import java.util.Optional;
 
 public class AfkHandler {
 
@@ -51,10 +52,11 @@ public class AfkHandler {
 
         if (level.getScoreboard().getPlayerTeam(teamName) == null){
             level.getScoreboard().addPlayerTeam(teamName);
-            Objects.requireNonNull(level.getScoreboard().getPlayerTeam(teamName)).setColor(ChatFormatting.GRAY);
+            Objects.requireNonNull(level.getScoreboard().getPlayerTeam(teamName)).setColor(Optional.of(TeamColor.GRAY));
         }
 
         PlayerTeam team = level.getScoreboard().getPlayerTeam(teamName);
+        assert team != null;
         team.setPlayerPrefix(getOrCreateDefaultTeam(level, player).getPlayerPrefix().copy().withStyle(ChatFormatting.GRAY));
 
         return team;

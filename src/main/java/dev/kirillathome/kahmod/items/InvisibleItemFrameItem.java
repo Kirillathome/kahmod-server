@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.decoration.GlowItemFrame;
 import net.minecraft.world.entity.decoration.HangingEntity;
 import net.minecraft.world.entity.decoration.ItemFrame;
@@ -50,11 +51,11 @@ public class InvisibleItemFrameItem extends ItemFrameItem implements PolymerItem
         } else {
             Level level = context.getLevel();
             HangingEntity entity;
-            if (entityType == EntityType.ITEM_FRAME) {
+            if (entityType == EntityTypes.ITEM_FRAME) {
                 entity = new ItemFrame(level, blockPos, clickedFace);
                 entity.setInvisible(true);
             } else {
-                if (entityType != EntityType.GLOW_ITEM_FRAME) {
+                if (entityType != EntityTypes.GLOW_ITEM_FRAME) {
                     return InteractionResult.SUCCESS;
                 }
 
@@ -62,7 +63,7 @@ public class InvisibleItemFrameItem extends ItemFrameItem implements PolymerItem
                 entity.setInvisible(true);
             }
 
-            EntityType.createDefaultStackConfig(level, itemInHand, player).accept(entity);
+            EntityType.createDefaultStackConfig(level, itemInHand, player).apply(entity);
             if (entity.survives()) {
                 if (!level.isClientSide()) {
                     entity.playPlacementSound();

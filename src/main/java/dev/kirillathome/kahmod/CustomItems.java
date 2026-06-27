@@ -1,14 +1,14 @@
 package dev.kirillathome.kahmod;
 
 import dev.kirillathome.kahmod.items.*;
+import eu.pb4.polymer.core.api.item.PolymerItemUtils;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
@@ -37,13 +37,13 @@ public class CustomItems {
 
     public static final Item INVISIBLE_ITEM_FRAME = registerItem(
             "invisible_item_frame",
-            p -> new InvisibleItemFrameItem(EntityType.ITEM_FRAME, p),
+            p -> new InvisibleItemFrameItem(EntityTypes.ITEM_FRAME, p),
             new Item.Properties()
     );
 
     public static final Item INVISIBLE_GLOW_ITEM_FRAME = registerItem(
             "invisible_glow_item_frame",
-            p -> new InvisibleItemFrameItem(EntityType.GLOW_ITEM_FRAME, p),
+            p -> new InvisibleItemFrameItem(EntityTypes.GLOW_ITEM_FRAME, p),
             new Item.Properties()
     );
 
@@ -192,14 +192,7 @@ public class CustomItems {
 
     public static void registerClass() {
         Kahmod.LOGGER.info("Registering the custom items.");
-
-//        Registry.register(Registries.ITEM, Identifier.fromNamespaceAndPath("kahmod", "crash_stick"), CRASH_STICK);
-//        Registry.register(Registries.ITEM, Identifier.fromNamespaceAndPath("kahmod", "copper_horn"), COPPER_HORN);
-//        Registry.register(Registries.ITEM, Identifier.fromNamespaceAndPath("kahmod", "invisible_item_frame"), INVISIBLE_ITEM_FRAME);
-//        Registry.register(Registries.ITEM, Identifier.fromNamespaceAndPath("kahmod", "invisible_glow_item_frame"), INVISIBLE_GLOW_ITEM_FRAME);
-//        Registry.register(Registries.ITEM, Identifier.fromNamespaceAndPath("kahmod", "music_disc_template"), MUSIC_DISC_TEMPLATE);
-//        Registry.register(Registries.ITEM, Identifier.fromNamespaceAndPath("kahmod", "music_disc_big_shot"), MUSIC_DISC_BIG_SHOT);
-//        Registry.register(Registries.ITEM, Identifier.fromNamespaceAndPath("kahmod", "music_disc_lava_chicken"), MUSIC_DISC_LAVA_CHICKEN);
-//        Registry.register(Registries.ITEM, Identifier.fromNamespaceAndPath("kahmod", "music_disc_windshields"), MUSIC_DISC_WINDSHIELDS);
+        PolymerItemUtils.enableStonecutterFix();
+        Kahmod.LOGGER.info("Stonecutter Fix Enabled: {}", PolymerItemUtils.isStonecutterFixEnabled());
     }
 }

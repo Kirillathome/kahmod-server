@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Mixin(Player.class)
@@ -29,7 +30,7 @@ public abstract class PlayerMixin extends Avatar {
             ItemStack itemStack = instance.getItem(i);
             if (!itemStack.isEmpty()) {
                 if (itemStack.get(DataComponents.CUSTOM_DATA) != null) {
-                    CompoundTag nbt = itemStack.get(DataComponents.CUSTOM_DATA).copyTag();
+                    CompoundTag nbt = Objects.requireNonNull(itemStack.get(DataComponents.CUSTOM_DATA)).copyTag();
                     Optional<Boolean> has = nbt.getBoolean("kahmod:soulbound");
                     if (has.isPresent() && has.get()) {
                         continue;
