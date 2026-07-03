@@ -35,17 +35,5 @@ public abstract class SingleItemRecipeMixin {
 
             cir.setReturnValue(patched);
         }
-//        if (result.contains(DataComponentTypes.CUSTOM_DATA) && singleStackRecipeInput.item().contains(DataComponentTypes.CUSTOM_DATA)) {
-//            ItemStack patched = result.copy();
-//
-//            NbtCompound nbt = singleStackRecipeInput.item().get(DataComponentTypes.CUSTOM_DATA).copyNbt();
-//            Optional<Boolean> has = nbt.getBoolean("kahmod:soulbound");
-//
-//            if (has.isPresent() && has.get()) {
-//                NbtComponent.set(DataComponentTypes.CUSTOM_DATA, patched, n -> n.putBoolean("kahmod:soulbound", true));
-//            }
-//
-//            cir.setReturnValue(patched);
-//        }
     }
 }

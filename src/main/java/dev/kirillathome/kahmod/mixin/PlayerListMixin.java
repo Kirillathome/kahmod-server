@@ -18,16 +18,16 @@ public class PlayerListMixin {
     private Inventory savedInventory;
 
     @Inject(method = "respawn", at = @At("HEAD"))
-    private void saveInventory(ServerPlayer serverPlayer, boolean keepAllPlayerData, Entity.RemovalReason removalReason, CallbackInfoReturnable<ServerPlayer> cir) {
+    private void kahmod$saveInventory(ServerPlayer serverPlayer, boolean keepAllPlayerData, Entity.RemovalReason removalReason, CallbackInfoReturnable<ServerPlayer> cir) {
         savedInventory = serverPlayer.getInventory();
     }
     @ModifyVariable(method = "respawn", at = @At("TAIL"), name = "player")
-    private ServerPlayer setInventory(ServerPlayer value){
+    private ServerPlayer kahmod$setInventory(ServerPlayer player){
 //        value.getInventory().clone(savedInventory);
-        Inventory newInventory = value.getInventory();
+        Inventory newInventory = player.getInventory();
         for (int i = 0; i < savedInventory.getContainerSize(); i++) {
             newInventory.setItem(i, savedInventory.getItem(i));
         }
-        return value;
+        return player;
     }
 }

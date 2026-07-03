@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "kahmod:invisible"
+      }
+    ],
+    "humanoid_baby": [
+      {
+        "texture": "kahmod:invisible"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "kahmod:invisible"
+      }
+    ]
+  }
+}

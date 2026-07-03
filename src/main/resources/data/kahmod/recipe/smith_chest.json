@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smithing_transform",
-  "base": "#kahmod:chest_equipment",
-  "addition": "#kahmod:cosmetic_materials_chest",
+  "base": "#minecraft:chest_armor",
+  "addition": "#kahmod:cosmetic_materials",
   "result": {
     "id": "minecraft:structure_void"
   }

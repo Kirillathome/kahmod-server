@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "kahmod:chainmail_copper"
+      }
+    ],
+    "humanoid_baby": [
+      {
+        "texture": "kahmod:chainmail_copper"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "kahmod:chainmail_copper"
+      }
+    ]
+  }
+}

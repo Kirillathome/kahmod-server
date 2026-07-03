@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "kahmod:copper_horn",
+  "result": {
+    "components": {
+      "minecraft:custom_data": {
+        "CopperHornInstrument": "horn.vine_boom"
+      }
+    },
+    "id": "kahmod:copper_horn"
+  }
+}

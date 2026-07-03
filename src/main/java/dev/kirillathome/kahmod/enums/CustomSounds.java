@@ -28,4 +28,8 @@ public enum CustomSounds {
     public SoundEvent toSoundEvent() {
         return SoundEvent.createVariableRangeEvent(id);
     }
+
+    public Identifier getId() {
+        return id;
+    }
 }

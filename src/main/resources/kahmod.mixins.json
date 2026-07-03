@@ -8,7 +8,7 @@
     "ItemStackMixin",
     "PlayerListMixin",
     "PlayerMixin",
-
+    "SingleItemRecipeMixin",
     "SmithingTransformRecipeMixin"
   ],
   "injectors": {

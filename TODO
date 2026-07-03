@@ -4,13 +4,16 @@ TODO FOR THIS MOD ONCE I HAVE MOTIVATION AGAIN TO WORK ON IT AGAIN:
 - [DONE] update to minecraft 26.2
 - [DONE? (only works on dedicated server)] fix stonecutter recipes not working
 - fix elytra missing texture when using phantom membrane on trimmed armor
-- send outline to client when holding invisible item frames
-- figure out fabric datagen api
-- generally clean up this wreck of a mod
+- [...nevermind. :(] send outline to client when holding invisible item frames
 
 1.8:
+- figure out fabric datagen api
+- replace own systems in favour of quilt config & server translations api
+- generally clean up this wreck of a mod
+
+1.9:
 - server side blocks (textured?)
 - server side trinkets (seems fun!)
 
-1.9
+2.0:
 - THE BACKROOMS
