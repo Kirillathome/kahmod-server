@@ -10,6 +10,8 @@ public class ServerConfig {
     public int afkTimeout = 1000 * 60 * 3;
     public boolean afkNotify = true;
 
+    public int maxStatusLength = 12;
+
     // The brand to display on the debug screen
     public String customBrand = "funni";
 

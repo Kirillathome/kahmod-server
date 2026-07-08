@@ -14,9 +14,11 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.arguments.HexColorArgument;
 import net.minecraft.commands.arguments.TeamColorArgument;
 import net.minecraft.commands.arguments.selector.EntitySelector;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
 import net.minecraft.network.protocol.common.custom.BrandPayload;
 import net.minecraft.server.level.ServerPlayer;
@@ -153,12 +155,17 @@ public final class CustomCommands {
                         Commands.argument("status_arg", StringArgumentType.string())
                                 .then(
                                         Commands.argument("color_arg", TeamColorArgument.teamColor())
-                                                .executes(context -> (setStatus(context.getSource(), StringArgumentType.getString(context, "status_arg"), TeamColorArgument.getTeamColor(context, "color_arg")))))
-                                .executes(context -> (setStatus(context.getSource(), StringArgumentType.getString(context, "status_arg"), TeamColor.WHITE)))
+                                                .executes(context -> (setStatus(context.getSource(), StringArgumentType.getString(context, "status_arg"), TeamColorArgument.getTeamColor(context, "color_arg").textColor())))
+                                )
+                                .then(
+                                        Commands.argument("hex_arg", HexColorArgument.hexColor())
+                                                .executes(context -> (setStatus(context.getSource(), StringArgumentType.getString(context, "status_arg"), TextColor.fromRgb(HexColorArgument.getHexColor(context, "hex_arg")))))
+                                )
+                                .executes(context -> (setStatus(context.getSource(), StringArgumentType.getString(context, "status_arg"), TeamColor.WHITE.textColor())))
                 )
         );
     }
-    public static int setStatus(CommandSourceStack source, String status, TeamColor formatting){
+    public static int setStatus(CommandSourceStack source, String status, TextColor formatting){
         ServerPlayer player = source.getPlayer();
         if (!source.isPlayer() || player == null){
             source.sendFailure(Component.literal(config.getCommandResponse("feedback.console")));
@@ -168,7 +175,7 @@ public final class CustomCommands {
             source.sendSuccess(() -> Component.literal(config.getCommandResponse("feedback.forbidden")), true);
             return 0;
         }
-        if (status.length() > 12){
+        if (status.length() > ConfigManager.serverConfig.maxStatusLength){
             source.sendFailure(Component.literal(config.getCommandResponse("status.long")));
             return 1;
         }
@@ -182,8 +189,8 @@ public final class CustomCommands {
             return 1;
         }
         source.getServer().getScoreboard().addPlayerToTeam(playerName, playerTeam);
-        playerTeam.setPlayerPrefix(Component.literal("["+status+"] ").withColor(formatting.textColor()));
-        source.sendSuccess(() -> Component.literal(config.getCommandResponse("status.set")).append(Component.literal("["+status+"]").withColor(formatting.textColor())), false);
+        playerTeam.setPlayerPrefix(Component.literal("["+status+"] ").withColor(formatting));
+        source.sendSuccess(() -> Component.literal(config.getCommandResponse("status.set")).append(Component.literal("["+status+"]").withColor(formatting)), false);
         return Command.SINGLE_SUCCESS;
     }
     public static int resetStatus(CommandSourceStack source){

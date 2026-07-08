@@ -22,7 +22,7 @@
 			"dev.kirillathome.kahmod.KahmodServer"
 		],
 		"fabric-datagen": [
-			"dev.kirillathome.kahmod.datagen.KahmodDataGenerator"
+          "dev.kirillathome.kahmod.datagen.KahmodDataGenerator"
 		]
 	},
 	"mixins": [

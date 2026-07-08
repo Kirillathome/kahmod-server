@@ -1,12 +1,10 @@
 package dev.kirillathome.kahmod;
 
 import dev.kirillathome.kahmod.config.ConfigManager;
-import dev.kirillathome.kahmod.util.AfkHandler;
 import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.Version;
@@ -47,17 +45,13 @@ public class Kahmod implements ModInitializer {
 		ServerPlayConnectionEvents.JOIN.register(((serverPlayNetworkHandler, packetSender, minecraftServer) -> packetSender.sendPacket(new CustomPayloadS2CPacket(new BrandCustomPayload(ConfigManager.getServerConfig().customBrand)))));
 		ServerPlayConnectionEvents.JOIN.register(((serverPlayNetworkHandler, packetSender, minecraftServer) -> AfkHandler.unsetAfk(serverPlayNetworkHandler.player, true)));*/
 		CommandRegistrationCallback.EVENT.register(
-				((commandDispatcher, commandBuildContext, commandSelection)
+				((commandDispatcher, _, _)
 						-> CustomCommands.registerRSMPCommand(commandDispatcher))
 		);
 		CommandRegistrationCallback.EVENT.register(
-				((commandDispatcher, commandBuildContext, commandSelection)
+				((commandDispatcher, _, _)
 						-> CustomCommands.registerStatusCommand(commandDispatcher))
 		);
-//		ServerPlayConnectionEvents.JOIN.register(
-//				(serverPlayNetworkHandler, packetSender, minecraftServer) -> {
-//					AfkHandler.unsetAfk(serverPlayNetworkHandler.player, true);
-//		});
 	}
 
 	public static Version getVersion(){

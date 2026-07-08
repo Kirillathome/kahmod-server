@@ -5,6 +5,7 @@ import dev.kirillathome.kahmod.enums.CustomSounds;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
@@ -12,12 +13,14 @@ import net.minecraft.data.recipes.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.SmithingTransformRecipe;
 import net.minecraft.world.item.crafting.StonecutterRecipe;
 import org.jspecify.annotations.NonNull;
 
@@ -30,17 +33,7 @@ public class KahmodRecipeProvider extends FabricRecipeProvider {
     public KahmodRecipeProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
 
-//        materialMap.put(Items.LEATHER, EquipmentAssets.LEATHER);
-//        materialMap.put(Items.COPPER_INGOT, EquipmentAssets.COPPER); // TODO: copper chains?
-//        materialMap.put(Items.IRON_INGOT, EquipmentAssets.IRON);
-//        materialMap.put(Items.IRON_CHAIN, EquipmentAssets.CHAINMAIL);
-//        materialMap.put(Items.GOLD_INGOT, EquipmentAssets.GOLD);
-//        materialMap.put(Items.DIAMOND, EquipmentAssets.DIAMOND);
-//        materialMap.put(Items.NETHERITE_INGOT, EquipmentAssets.NETHERITE);
-//        materialMap.put(Items.TURTLE_SCUTE, EquipmentAssets.TURTLE_SCUTE);
-        // TODO: amethyst for invisible armor?
-        // note that glass panes use special handling
-
+        // couldn't get item tags to work at this stage of initialization, so sadly this will have to do
         dyeableArmor.add(Items.LEATHER_HELMET);
         dyeableArmor.add(Items.LEATHER_CHESTPLATE);
         dyeableArmor.add(Items.LEATHER_LEGGINGS);
@@ -82,8 +75,12 @@ public class KahmodRecipeProvider extends FabricRecipeProvider {
 
                 // build all copper horn recipes
                 buildCopperHorns();
+
                 // build only the dyeing recipes for the armor
                 buildDyeableArmor();
+
+                // dummy smithing recipes
+//                buildSmithingArmor(itemLookup);
             }
 
             private void buildCopperHorns() {
@@ -135,6 +132,44 @@ public class KahmodRecipeProvider extends FabricRecipeProvider {
             private void buildDyeableArmor() {
                 dyeableArmor.forEach(item -> dyedItem(item, "dyed_armor"));
             }
+
+//            private void buildSmithingArmor(HolderLookup.RegistryLookup<Item> itemLookup) {
+//                Optional<HolderSet.Named<Item>> cosmeticMaterials = itemLookup.get(
+//                        TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("kahmod", "cosmetic_materials"))
+//                );
+//                Optional<HolderSet.Named<Item>> cosmeticMaterialsHead = itemLookup.get(
+//                        TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("kahmod", "cosmetic_materials_head"))
+//                );
+//
+//                if (cosmeticMaterials.isEmpty()) {
+//                    return; // uh oh
+//                }
+//
+//                for (Item armor : dyeableArmor) {
+//                    SmithingTransformRecipe recipe = new SmithingTransformRecipe(
+//                            new Recipe.CommonInfo(false),
+//                            Optional.empty(),
+//                            Ingredient.of(
+//                                    getItemName(armor).contains("helmet") ?
+//                                            cosmeticMaterialsHead.orElse(cosmeticMaterials.get()) :
+//                                            cosmeticMaterials.get()
+//                                    ),
+//                            Optional.of(Ingredient.of(armor)),
+//                            new ItemStackTemplate(armor)
+//                    );
+//
+//                    ResourceKey<Recipe<?>> id = ResourceKey.create(
+//                            Registries.RECIPE,
+//                            Identifier.fromNamespaceAndPath("kahmod", "cosmetic_smith_".concat(getItemName(armor)))
+//                    );
+//
+//                    output.accept(
+//                            id,
+//                            recipe,
+//                            null
+//                    );
+//                }
+//            }
         };
     }
 
