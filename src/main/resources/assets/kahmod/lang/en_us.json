@@ -43,5 +43,7 @@
   "tag.item.kahmod.chest_equipment": "Chest Equipment",
   "tag.item.kahmod.cosmetic_materials": "Cosmetic Materials (General)",
   "tag.item.kahmod.cosmetic_materials_chest": "Cosmetic Materials (Chest)",
-  "tag.item.kahmod.cosmetic_materials_head": "Cosmetic Materials (Head)"
+  "tag.item.kahmod.cosmetic_materials_head": "Cosmetic Materials (Head)",
+
+  "itemGroup.kahmod": "Kahmod"
 }

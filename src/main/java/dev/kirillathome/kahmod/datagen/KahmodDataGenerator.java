@@ -9,5 +9,6 @@ public class KahmodDataGenerator implements DataGeneratorEntrypoint {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
 
         pack.addProvider(KahmodRecipeProvider::new); // copper horns & cosmetic armor dyeing
+        pack.addProvider(KahmodItemTagProvider::new); // music disc tag
     }
 }

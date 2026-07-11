@@ -1,4 +1,4 @@
-package dev.kirillathome.kahmod.items;
+package dev.kirillathome.kahmod.item;
 
 import eu.pb4.polymer.core.api.item.PolymerItem;
 import net.fabricmc.fabric.api.networking.v1.context.PacketContext;

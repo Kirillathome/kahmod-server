@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_goat_horn": {
+    "has_copper_horn": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:goat_horn"
+            "items": "kahmod:copper_horn"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_goat_horn"
+      "has_copper_horn"
     ]
   ],
   "rewards": {

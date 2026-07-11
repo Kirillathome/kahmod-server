@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "kahmod:music_disc_template",
+  "result": {
+    "id": "kahmod:music_disc_big_shot"
+  }
+}

@@ -1,12 +1,9 @@
-package dev.kirillathome.kahmod.items;
+package dev.kirillathome.kahmod.item;
 
-import dev.kirillathome.kahmod.Kahmod;
-import dev.kirillathome.kahmod.enums.CustomSounds;
+import dev.kirillathome.kahmod.CustomSoundEvents;
 import dev.kirillathome.kahmod.util.SoundHelper;
 import eu.pb4.polymer.core.api.item.PolymerItem;
 import net.fabricmc.fabric.api.networking.v1.context.PacketContext;
-import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ExplosionParticleInfo;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -19,7 +16,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
 
@@ -71,7 +67,7 @@ public class CrashStickItem extends Item implements PolymerItem {
         }
 
         SoundHelper.playSound(
-                CustomSounds.DISAPPEAR,
+                CustomSoundEvents.DISAPPEAR,
                 SoundSource.MASTER,
                 mob.level(),
                 mob.getX(),

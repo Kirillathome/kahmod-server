@@ -1,6 +1,6 @@
-package dev.kirillathome.kahmod.items;
+package dev.kirillathome.kahmod.item;
 
-import dev.kirillathome.kahmod.enums.CustomSounds;
+import dev.kirillathome.kahmod.CustomSoundEvents;
 import dev.kirillathome.kahmod.util.SoundHelper;
 import eu.pb4.polymer.core.api.item.PolymerItem;
 import net.fabricmc.fabric.api.networking.v1.context.PacketContext;
@@ -33,7 +33,7 @@ public class CopperHornItem extends Item implements PolymerItem {
 
     @Override
     public void modifyClientTooltip(List<Component> tooltip, ItemStack stack, PacketContext context) {
-        CustomSounds instrument = getInstrument(stack);
+        CustomSoundEvents instrument = getInstrument(stack);
         if (instrument != null) {
             tooltip.add(Component.translatable("tooltip.kahmod.".concat(instrument.toSoundEvent().location().getPath())).withStyle(ChatFormatting.GRAY));
         }
@@ -45,16 +45,14 @@ public class CopperHornItem extends Item implements PolymerItem {
     }
 
     @Override
-    public InteractionResult use(final @NonNull Level level, final @NonNull Player player, final @NonNull InteractionHand hand) {
+    public @NonNull InteractionResult use(final @NonNull Level level, final @NonNull Player player, final @NonNull InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
-        CustomSounds sound = getInstrument(itemStack);
+        CustomSoundEvents sound = getInstrument(itemStack);
         if (sound != null) {
             player.startUsingItem(hand);
             SoundHelper.playSound(sound, SoundSource.RECORDS, level, player.getX(), player.getY(), player.getZ());
-            //player.getItemCooldownManager().set(itemStack, 160);
             player.getCooldowns().addCooldown(itemStack, 160);
             player.awardStat(Stats.ITEM_USED.get(this));
-            //player.incrementStat(Stats.USED.getOrCreateStat(this));
             return InteractionResult.CONSUME;
         }
         return InteractionResult.FAIL;
@@ -70,15 +68,15 @@ public class CopperHornItem extends Item implements PolymerItem {
         return ItemUseAnimation.TOOT_HORN;
     }
 
-    private @Nullable CustomSounds getInstrument(ItemStack stack) {
-        CustomSounds s = null;
+    private @Nullable CustomSoundEvents getInstrument(ItemStack stack) {
+        CustomSoundEvents s = null;
         if (stack.get(DataComponents.CUSTOM_DATA) != null) {
             CompoundTag nbt = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
 
             Optional<String> sound = nbt.getString("CopperHornInstrument");
 
             if (sound.isPresent()) {
-                for (CustomSounds customSound : CustomSounds.values()) {
+                for (CustomSoundEvents customSound : CustomSoundEvents.values()) {
                     if (customSound.toSoundEvent().location().getPath().equals(sound.get())) {
                         s = customSound;
                         break;

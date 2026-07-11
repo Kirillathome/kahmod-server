@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.Version;
+import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,5 +58,9 @@ public class Kahmod implements ModInitializer {
 	public static Version getVersion(){
 		Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer("kahmod");
         return modContainer.map(container -> container.getMetadata().getVersion()).orElse(null);
+	}
+
+	public static Identifier identifierOf(String path) {
+		return Identifier.fromNamespaceAndPath(MOD_ID, path);
 	}
 }
